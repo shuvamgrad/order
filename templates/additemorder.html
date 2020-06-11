@@ -1,0 +1,72 @@
+
+<div class="form-group">
+	<label for="orderType">Type of item:</label>
+
+	<select class="form-control" name="orderType" id="orderType" onchange="moreOptions()">
+		<option value="long">Long copy</option>
+		<option value="a4options" id="a4options">A4 copy</option>
+		<option value="exam">Exam copy</option>
+		<option value="diary">School Diary</option>
+		<option value="register">Register</option>
+		<option value="spiraloptions" id="spiraloptions">Notebook Spiral</option>
+	</select>
+</div>
+
+<div class="form-group" id="moreA4" style="display: none">
+	<label for="a4type">Which A4 copy:</label>	
+	<input type="radio" name="a4type" id="a4normal" value="a4normal" checked>
+	<label for="a4normal">A4</label>
+	<input type="radio" name="a4type" id="a4flat" value="a4flat">
+	<label for="a4flat">A4 Flat</label>
+</div>
+
+<div class="form-group" id="moreSpiral" style="display: none">
+	<label for="spiralsize">Size of Spiral:</label>
+
+	<select class="form-control" name="spiralsize" id="spiralsize">
+		<option value="a4spiral">A4 Spiral</option>
+		<option value="a5spiral">A5 Spiral</option>
+		<option value="b5spiral">B5 Spiral</option>
+	</select>
+</div>
+
+
+<div class="form-group">
+	<label for="orderQuantity">Quantity of your order:</label>
+	<input id="orderQuantity" type="number" name="orderQuantity" list="defaultQNumbers">
+	<span class="validity"></span>
+
+	<datalist id="defaultQNumbers">
+			<option value="500">
+			<option value="1000">
+			<option value="2000">
+			<option value="5000">
+			<option value="10000">
+			<option value="15000">
+	</datalist>
+</div>
+
+
+<div class="form-group">
+	<label for="orderPage">Number of pages:</label>
+	<span id="orderpagehint">Please type number of pages in each notebook.For example, if you want 200 pages(i.e 100panna) inside cover, type 204 pages.</span>	
+	<input type="number" name="orderPage" id="orderPage" min="4" max="2000" step="4" value="0">	
+</div>
+
+<div class="form-group">
+	<label for="coverColor">Cover Design:</label>	
+	<input type="radio" name="coverColor" id="single" value="1" checked>
+	<label for="single">Single Color</label>
+	<input type="radio" name="coverColor" id="two" value="2">
+	<label for="two">Two Color</label>
+	<input type="radio" name="coverColor" id="multi" value="4">
+	<label for="multi">Multi Color</label>
+</div>
+
+<div class="form-group">
+	<label for="coverLam">Do you want lamination in cover:</label>	
+	<input type="radio" name="coverLam" id="lamYes" value="yes" checked>
+	<label for="lamYes">Yes</label>
+	<input type="radio" name="coverLam" id="lamNo" value="no">
+	<label for="lamNo">No</label>
+</div>
