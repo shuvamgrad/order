@@ -1,33 +1,34 @@
 var counter = 0;
+//var divparent = document.createElement("div");
 var divParent = [];
 var orderItemsArray = [];
 var divParentItemType = document.getElementById("parent");
 var addButtonItem = document.getElementById("addItemButton");
 addButtonItem.setAttribute("onclick","incrementCounter();");
 
-var flag = false;
 
+function addItem(counter){
 
-function addItem(c){
-
-	//counter = this.counter;
-	const count = c;
+	counter = this.counter;
+	const count = this.counter;
 	orderItemsArray[count] = {};
 	orderItemsArray[count].id = count;
-	flag = false;
 	itemType(count);
-}
-
-function itemType(c){
-	const count = c;
 	// console.log("counter : " + counter);
 	// console.log("this.counter : " + this.counter);
 	// console.log("count : " + count);
+	//console.log(divParentItemType);
+}
+
+function itemType(counter){
+	const count = this.counter;
+	console.log("counter : " + counter);
+	console.log("this.counter : " + this.counter);
+	console.log("count : " + count);
+	//const divItemType = [];
 	const divItemType = document.createElement("div");
-	const select = [];
-	select[count] = document.createElement("select");
-	select[count].id = count;
-	//const select = document.createElement("select");
+	//divItemType[count].id = count;
+	const select = document.createElement("select");
 	const optionlong = document.createElement("option");
 	const optiona4 = document.createElement("option");
 	const optionexam = document.createElement("option");
@@ -35,18 +36,18 @@ function itemType(c){
 	const optionregister = document.createElement("option");
 	const optionspiral = document.createElement("option");
 
-	select[count].append(optionlong);
-	select[count].append(optiona4);
-	select[count].append(optionexam);
-	select[count].append(optiondiary);
-	select[count].append(optionregister);
-	select[count].append(optionspiral);
+	select.append(optionlong);
+	select.append(optiona4);
+	select.append(optionexam);
+	select.append(optiondiary);
+	select.append(optionregister);
+	select.append(optionspiral);
 
 	
 
-	divItemType.append(select[count]);
-	select[count].setAttribute("onchange","getChoosenItem(this.options[this.selectedIndex]);");
-	//select[count].setAttribute("onchange",getChoosenItem(this));
+	divItemType.append(select);
+	select.setAttribute("onchange","getChoosenItem(this.options[this.selectedIndex].text,this.counter);");
+	//select.onchange = getChoosenItem(this.options[this.selectedIndex].text);
 	optionlong.innerHTML = "Long Copy";
 	optiona4.innerHTML = "A4 Copy";
 	optionexam.innerHTML = "Exam Copy";
@@ -56,78 +57,161 @@ function itemType(c){
 
 	divParentItemType.append(divItemType);
 	divItemType.setAttribute("class","form-group");
+
+	// const divReplace = document.createElement("div");
+	// divParentItemType.append(divReplace);
 }
 
 
-//GET ITEM TYPE
-function getChoosenItem(selected){
-	//console.log(selected.parentElement.id);
-	const count = selected.parentElement.id;
-	//const count = this.counter;
-	const value = selected.text;
-	orderItemsArray[count].itemType = value;
-	divParent[count] = document.createElement("div");
+// if (counter == 0){
+// 	addItem();
+// }
 
-	if (value == "Long Copy"){
+// function addItem(){
+// 	itemType();
+// 	counter++;
+// 	divParent[counter] = document.createElement("div");
+// 	console.log(counter);
+// 	console.log(divParent[counter]);
+// }
+
+
+
+//GET ITEM TYPE
+
+
+function getChoosenItem(selected){
+	//divParent[counter] = document.createElement("div");
+	//console.log(divParent[counter]);
+	//console.log(counter);
+	//console.log(selected.parentNode.id);
+	const count = this.counter;
+	orderItemsArray[count].itemType = selected;
+	divParent[count] = document.createElement("div");
+	//divParent[count].id = count;
+
+	if (selected == "Long Copy"){
+		//clearParent(divParent[count]);
+		//divParent[count].querySelectorAll('*').forEach(n => n.remove());
+		//orderItemsArray[counter].itemType = ;
+		//itemDetailList.id = counter;
+		//divParentItemType.removeChild(divParent[count]);
+		//divParentItemType.removeChild(divParentItemType.childNodes[count]);
+		//divParent[count].parentNode.removeChild(divParent[count]);
 		itemQuantity(count);
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//divParentItemType.replaceChild(divParent[count],divParentItemType.childNodes[count+2])
+		//addItemButton(count);
+		//divParentItemType.append(divParent[count]);
 	}
-	else if (value == "A4 Copy"){
+	else if (selected == "A4 Copy"){
+		//divParent[count].querySelectorAll('*').forEach(n => n.remove());
+		//clearParent(divParent,count);
+		//divParentItemType.removeChild(divParent[count]);
+		//divParentItemType.removeChild(divParentItemType.childNodes[count]);
+		//divParent[count].parentNode.removeChild(divParent[count]);
 		a4Type(count);
 		itemQuantity(count);
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//addItemButton(count);
+		//divParentItemType.append(divParent[count]);
 	}
-	else if (value == "Exam Copy"){
+	else if (selected == "Exam Copy"){
+		//divParent[count].querySelectorAll('*').forEach(n => n.remove());
+		//divParentItemType.removeChild(divParent[count]);
+		//divParentItemType.removeChild(divParentItemType.childNodes[count+1]);
+		//divParent[count].parentNode.removeChild(divParent[count]);
+		//clearParent(divParent[count]);
 		itemQuantity(count);
 		itemNoOfPages(count);
+		//addItemButton(count);
+		//divParentItemType.append(divParent[count]);
 	}
-	else if (value == "School Diary"){
+	else if (selected == "School Diary"){
+		//clearParent(divParent[count]);
+		//divParent[count].querySelectorAll('*').forEach(n => n.remove());
+		//divParentItemType.removeChild(divParent[count]);
+		//divParentItemType.removeChild(divParentItemType.childNodes[count+1]);
+		//divParent[count].parentNode.removeChild(divParent[count]);
 		itemQuantity(count);
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//addItemButton(count);
+		//divParentItemType.append(divParent[count]);
 	}
-	else if (value == "Register"){
+	else if (selected == "Register"){
+		//clearParent(divParent[count]);
+		//divParent[count].querySelectorAll('*').forEach(n => n.remove());
+		//divParentItemType.removeChild(divParent[count]);
+		//divParentItemType.removeChild(divParentItemType.childNodes[count+1]);
+		//divParent[count].parentNode.removeChild(divParent[count]);
 		itemQuantity(count);
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//addItemButton(count);
+		//divParentItemType.append(divParent[count]);
 	}
-	else if (value == "Spiral Notebook"){
+	else if (selected == "Spiral Notebook"){
+		//clearParent(divParent[count]);
+		//divParent[count].querySelectorAll('*').forEach(n => n.remove());
+		//divParentItemType.removeChild(divParentItemType.childNodes[count+1]);
+		//divParent[count].parentNode.removeChild(divParent[count]);
 		spiralType(count);
 		itemQuantity(count);
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//addItemButton(count);
+		//divParentItemType.append(divParent[count]);
 	}
 	else{
+		//clearParent(divParent,count);
+		//divParentItemType.removeChild(divParent[count]);
+		//divParentItemType.removeChild(divParentItemType.childNodes[count+1]);
+		//divParent[count].parentNode.removeChild(divParent[count]);
 		error("Item Not Found");
+		//divParentItemType.append(divParent[count]);
 	}
-
-
+	//divParentItemType.append(divParent[count]);
+	// console.log(divParentItemType);
+	// console.log(count);
+	// console.log(this.counter);
 	if(divParentItemType.childNodes[(count*2)+2]){
 		divParentItemType.replaceChild(divParent[count],divParentItemType.childNodes[(count*2)+2]);
-		flag = true;
 	}
-	else{
+	else
 		divParentItemType.append(divParent[count]);
-		flag = true;
-	}
-
 	
-	console.log(divParentItemType);
-	console.log("divParent[count] : ", divParent[count]);
-	console.log("count : ", count);
+	
 }
 
+function clearParent(p,c){
+	// while (p.firstChild) {
+ //    p.removeChild(p.lastChild);
+	// }	
+	const count = this.c;
+	// while (p[count].hasChildNodes()) {
+ //    p[count].removeChild(p[count].firstChild);
+	// }
+
+	//p.innerHTML = "";
+	//p.innerHTML = "";
+	p[count].querySelectorAll('*').forEach(n => n.remove());
+	console.log(p[count]);
+	console.log(p[count].firstChild);
+	console.log(p[count].lastChild);
+	console.log(orderItemsArray[counter]);
+}
 
 //GET ITEM QUANTITY
-function itemQuantity(c){
-	const count = c;
+function itemQuantity(counter){
+	const count = this.counter;
 	const divItemQuantity = document.createElement("div");
 	const inputQtyLabel = document.createElement("label");
 	const inputQuantity = document.createElement("input");
@@ -193,8 +277,8 @@ function itemQuantity(c){
 </div>*/
 
 //GET ITEM NO OF PAGES
-function itemNoOfPages(c){
-	const count = c;
+function itemNoOfPages(counter){
+	const count = this.counter;
 	const divItemNoPages = document.createElement("div");
 	const inputNoPagesLabel = document.createElement("label");
 	const inputNopages = document.createElement("input");
@@ -230,8 +314,8 @@ function itemNoOfPages(c){
 </div>*/
 
 //GET COVER DESIGN NO. OF COLOR
-function itemNoOfColor(c){
-	const count = c;
+function itemNoOfColor(counter){
+	const count = this.counter;
 	const divCoverNoColor = document.createElement("div");
 	const inputCoverColorLabel = document.createElement("label");
 	const inputSingleColor = document.createElement("input");
@@ -242,7 +326,7 @@ function itemNoOfColor(c){
 	const inputMultiColor = document.createElement("input");
 
 	inputCoverColorLabel.innerHTML = "No. of color in cover design : ";
-	inputCoverColorLabel.setAttribute("for","coverColor" + count);
+	inputCoverColorLabel.setAttribute("for","coverColor");
 	inputSingleColorLabel.innerHTML = "Single Color";
 	inputSingleColorLabel.setAttribute("for","singleColor");
 	inputTwoColorLabel.innerHTML = "Two Color";
@@ -251,19 +335,19 @@ function itemNoOfColor(c){
 	inputMultiColorLabel.setAttribute("for","multiColor");
 
 	inputSingleColor.setAttribute("type","radio");
-	inputSingleColor.setAttribute("name","coverColor" + count);
+	inputSingleColor.setAttribute("name","coverColor");
 	inputSingleColor.setAttribute("id","singleColor");
 	inputSingleColor.setAttribute("value","1");
 	inputSingleColor.setAttribute("checked","True");
 
 	inputTwoColor.setAttribute("type","radio");
-	inputTwoColor.setAttribute("name","coverColor" + count);
+	inputTwoColor.setAttribute("name","coverColor");
 	inputTwoColor.setAttribute("id","twoColor");
 	inputTwoColor.setAttribute("value","2");
 
 
 	inputMultiColor.setAttribute("type","radio");
-	inputMultiColor.setAttribute("name","coverColor" + count);
+	inputMultiColor.setAttribute("name","coverColor");
 	inputMultiColor.setAttribute("id","multiColor");
 	inputMultiColor.setAttribute("value","4");
 
@@ -277,7 +361,7 @@ function itemNoOfColor(c){
 	divCoverNoColor.append(inputMultiColor);
 	divCoverNoColor.append(inputMultiColorLabel);
 
-	orderItemsArray[count].itemNoOfColor = document.getElementsByName("coverColor" + count).value;
+	orderItemsArray[count].itemNoOfColor = document.getElementsByName("coverColor").value;
 
 	divParent[count].append(divCoverNoColor);
 
@@ -293,8 +377,8 @@ function itemNoOfColor(c){
 </div>*/
 
 //GET LAMINATION YES OR NO
-function itemLam(c) {
-	const count = c;
+function itemLam(counter) {
+	const count = this.counter;
 	const divCoverLam = document.createElement("div");
 	const inputCoverLamLabel = document.createElement("label");
 	const inputLamYes = document.createElement("input");
@@ -304,20 +388,20 @@ function itemLam(c) {
 
 
 	inputCoverLamLabel.innerHTML = "Do you want lamination in cover: ";
-	inputCoverLamLabel.setAttribute("for","coverLam"+count);
+	inputCoverLamLabel.setAttribute("for","coverLam");
 	inputLamYesLabel.innerHTML = "Yes";
 	inputLamYesLabel.setAttribute("for","lamYes");
 	inputLamNoLabel.innerHTML = "No";
 	inputLamNoLabel.setAttribute("for","lamNo");
 
 	inputLamYes.setAttribute("type","radio");
-	inputLamYes.setAttribute("name","coverLam"+count);
+	inputLamYes.setAttribute("name","coverLam");
 	inputLamYes.setAttribute("id","lamYes");
 	inputLamYes.setAttribute("value","True");
 	inputLamYes.setAttribute("checked","True");
 
 	inputLamNo.setAttribute("type","radio");
-	inputLamNo.setAttribute("name","coverLam"+count);
+	inputLamNo.setAttribute("name","coverLam");
 	inputLamNo.setAttribute("id","lamNo");
 	inputLamNo.setAttribute("value","False");
 
@@ -329,7 +413,7 @@ function itemLam(c) {
 	divCoverLam.append(inputLamNo);
 	divCoverLam.append(inputLamNoLabel);
 
-	orderItemsArray[count].itemLam = document.getElementsByName("coverLam"+count).value;
+	orderItemsArray[count].itemLam = document.getElementsByName("coverLam").value;
 
 	divParent[count].append(divCoverLam);
 
@@ -345,8 +429,8 @@ function itemLam(c) {
 </div>*/
 
 //GET A4 Type
-function a4Type(c) {
-	const count = c;
+function a4Type(counter) {
+	const count = this.counter;
 	const divA4Type = document.createElement("div");
 	const inputA4TypeLabel = document.createElement("label");
 	const inputA4 = document.createElement("input");
@@ -401,8 +485,8 @@ function a4Type(c) {
 	</select>
 </div>*/
 //Get Spiral Type
-function spiralType(c) {
-	const count = c;
+function spiralType(counter) {
+	const count = this.counter;
 	const divSpiralType = document.createElement("div");
 	const inputSpiralTypeLabel = document.createElement("label");
 	const selectSpiral = document.createElement("select");
@@ -434,24 +518,10 @@ function error(errorMessage) {
 	const diverror = document.createElement("div");
 	const h1error = document.createElement("h1");
 	h1error.innerHTML = errorMessage;
-	alert(diverror);
 }
 
 
-function removeItem(c){
-	const count = c;
-	const divRemoveItemButton = document.createElement("div");
-	const buttonRemoveItem = document.createElement("button");
 
-	buttonAddItem.innerHTML = "Remove Item";
-	buttonAddItem.setAttribute("type","button");
-	buttonAddItem.setAttribute("id","removeItemButton");
-	buttonAddItem.setAttribute("onclick","decrementCounter(count);");
-
-	divRemoveItemButton.append(buttonRemoveItem);
-	divParent[count].append(divRemoveItemButton);
-
-}
 
 //add item button
 // function addItemButton(counter) {
@@ -468,21 +538,9 @@ function removeItem(c){
 // 	divParent[count].append(divAddItemButton);
 // }
 
-function decrementCounter(c){
-	
-}
-
-
-
-
 function incrementCounter(){
-	if (flag){
-		counter += 1;
-		addItem(counter);
-	}
-	else
-		error("Please enter previous item details before adding another");
-	
+	counter += 1;
+	addItem(counter);
 }
 
 

@@ -56,6 +56,7 @@ function itemType(c){
 
 	divParentItemType.append(divItemType);
 	divItemType.setAttribute("class","form-group");
+
 }
 
 
@@ -73,6 +74,7 @@ function getChoosenItem(selected){
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//removeItemFun(count);
 	}
 	else if (value == "A4 Copy"){
 		a4Type(count);
@@ -80,22 +82,26 @@ function getChoosenItem(selected){
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//removeItemFun(count);
 	}
 	else if (value == "Exam Copy"){
 		itemQuantity(count);
 		itemNoOfPages(count);
+		//removeItemFun(count);
 	}
 	else if (value == "School Diary"){
 		itemQuantity(count);
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//removeItemFun(count);
 	}
 	else if (value == "Register"){
 		itemQuantity(count);
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//removeItemFun(count);
 	}
 	else if (value == "Spiral Notebook"){
 		spiralType(count);
@@ -103,11 +109,11 @@ function getChoosenItem(selected){
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
+		//removeItemFun(count);
 	}
 	else{
 		error("Item Not Found");
 	}
-
 
 	if(divParentItemType.childNodes[(count*2)+2]){
 		divParentItemType.replaceChild(divParent[count],divParentItemType.childNodes[(count*2)+2]);
@@ -118,12 +124,23 @@ function getChoosenItem(selected){
 		flag = true;
 	}
 
+	// if(count!=0){
+	// 	removeItem(count);
+	// }
+	removeItemFun(count);
+
 	
 	console.log(divParentItemType);
 	console.log("divParent[count] : ", divParent[count]);
 	console.log("count : ", count);
 }
 
+function removeItemFun(c){
+	const count = c;
+	if (count!=0) {
+		removeItem(count);
+	}
+}
 
 //GET ITEM QUANTITY
 function itemQuantity(c){
@@ -356,20 +373,20 @@ function a4Type(c) {
 
 
 	inputA4TypeLabel.innerHTML = "Type of A4 Notebook: ";
-	inputA4TypeLabel.setAttribute("for","a4type");
+	inputA4TypeLabel.setAttribute("for","a4type"+count);
 	inputA4Label.innerHTML = "A4";
 	inputA4Label.setAttribute("for","a4");
 	inputA4FlatLabel.innerHTML = "A4 Flat";
 	inputA4FlatLabel.setAttribute("for","a4Flat");
 
 	inputA4.setAttribute("type","radio");
-	inputA4.setAttribute("name","a4type");
+	inputA4.setAttribute("name","a4type"+count);
 	inputA4.setAttribute("id","a4");
 	inputA4.setAttribute("value","normal");
 	inputA4.setAttribute("checked","True");
 
 	inputA4Flat.setAttribute("type","radio");
-	inputA4Flat.setAttribute("name","a4type");
+	inputA4Flat.setAttribute("name","a4type"+count);
 	inputA4Flat.setAttribute("id","a4flat");
 	inputA4Flat.setAttribute("value","flat");
 
@@ -381,7 +398,7 @@ function a4Type(c) {
 	divA4Type.append(inputA4Flat);
 	divA4Type.append(inputA4FlatLabel);
 
-	orderItemsArray[count].a4Type = document.getElementsByName("a4type").value;
+	orderItemsArray[count].a4Type = document.getElementsByName("a4type".count).value;
 	//console.log(count);
 	//console.log(counter);
 	//console.log(divParent[0]);
@@ -443,13 +460,16 @@ function removeItem(c){
 	const divRemoveItemButton = document.createElement("div");
 	const buttonRemoveItem = document.createElement("button");
 
-	buttonAddItem.innerHTML = "Remove Item";
-	buttonAddItem.setAttribute("type","button");
-	buttonAddItem.setAttribute("id","removeItemButton");
-	buttonAddItem.setAttribute("onclick","decrementCounter(count);");
+	buttonRemoveItem.innerHTML = "Remove Item";
+	buttonRemoveItem.setAttribute("type","button");
+	buttonRemoveItem.setAttribute("id","removeItemButton");
+	//buttonRemoveItem.setAttribute("onclick","decrementCounter(\'' + count + '\');");
+	buttonRemoveItem.addEventListener('click',function(){
+		decrementCounter(count);
+	});
 
 	divRemoveItemButton.append(buttonRemoveItem);
-	divParent[count].append(divRemoveItemButton);
+	divParentItemType.append(divRemoveItemButton);
 
 }
 
@@ -468,8 +488,19 @@ function removeItem(c){
 // 	divParent[count].append(divAddItemButton);
 // }
 
-function decrementCounter(c){
-	
+function decrementCounter(e,c){
+	const count = c;
+	// if (divParentItemType.childNodes[(count*2)+1]){
+	// 	divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+1]);
+	// }
+	// if (divParentItemType.childNodes[(count*2)+2]){
+	// 	divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+2]);
+	// }
+	console.log(divParentItemType.childNodes[(count*1)+1]);
+	console.log(divParentItemType.childNodes[(count*1)+2]);
+	divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+1]);
+	divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+2]);
+	counter -= 1;
 }
 
 
