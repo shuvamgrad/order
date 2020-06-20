@@ -74,7 +74,7 @@ function getChoosenItem(selected){
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
-		//removeItemFun(count);
+		removeItemFun(count);
 	}
 	else if (value == "A4 Copy"){
 		a4Type(count);
@@ -82,26 +82,26 @@ function getChoosenItem(selected){
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
-		//removeItemFun(count);
+		removeItemFun(count);
 	}
 	else if (value == "Exam Copy"){
 		itemQuantity(count);
 		itemNoOfPages(count);
-		//removeItemFun(count);
+		removeItemFun(count);
 	}
 	else if (value == "School Diary"){
 		itemQuantity(count);
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
-		//removeItemFun(count);
+		removeItemFun(count);
 	}
 	else if (value == "Register"){
 		itemQuantity(count);
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
-		//removeItemFun(count);
+		removeItemFun(count);
 	}
 	else if (value == "Spiral Notebook"){
 		spiralType(count);
@@ -109,7 +109,7 @@ function getChoosenItem(selected){
 		itemNoOfPages(count);
 		itemNoOfColor(count);
 		itemLam(count);
-		//removeItemFun(count);
+		removeItemFun(count);
 	}
 	else{
 		error("Item Not Found");
@@ -127,7 +127,7 @@ function getChoosenItem(selected){
 	// if(count!=0){
 	// 	removeItem(count);
 	// }
-	removeItemFun(count);
+	//removeItemFun(count);
 
 	
 	console.log(divParentItemType);
@@ -448,10 +448,9 @@ function spiralType(c) {
 	
 //for error
 function error(errorMessage) {
-	const diverror = document.createElement("div");
 	const h1error = document.createElement("h1");
 	h1error.innerHTML = errorMessage;
-	alert(diverror);
+	alert(h1error.innerHTML);
 }
 
 
@@ -469,7 +468,7 @@ function removeItem(c){
 	});
 
 	divRemoveItemButton.append(buttonRemoveItem);
-	divParentItemType.append(divRemoveItemButton);
+	divParent[count].append(divRemoveItemButton);
 
 }
 
@@ -488,18 +487,14 @@ function removeItem(c){
 // 	divParent[count].append(divAddItemButton);
 // }
 
-function decrementCounter(e,c){
+function decrementCounter(c){
 	const count = c;
-	// if (divParentItemType.childNodes[(count*2)+1]){
-	// 	divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+1]);
-	// }
-	// if (divParentItemType.childNodes[(count*2)+2]){
-	// 	divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+2]);
-	// }
-	console.log(divParentItemType.childNodes[(count*1)+1]);
-	console.log(divParentItemType.childNodes[(count*1)+2]);
-	divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+1]);
-	divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+2]);
+	if (divParentItemType.childNodes[(count*2)+2]){
+		divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+2]);
+	}
+	if (divParentItemType.childNodes[(count*2)+1]){
+		divParentItemType.removeChild(divParentItemType.childNodes[(count*2)+1]);
+	}
 	counter -= 1;
 }
 
