@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Order</title>
+		<link rel="stylesheet" type="text/css" href="static/index.css">
 	</head>
 	<body>
 		
@@ -22,11 +23,11 @@
 				<h1> Your order Details:</h1>
 			</div>
 
-			<div class="form-group" id="parent">
+			<div class="itemcard" id="parent">
 			</div>
 
-			<div class="form-group" id="addItemDiv">
-				<button type="button" id="addItemButton">Add Item</button>
+			<div class="ADDdiv" id="addItemDiv">
+				<button class="addButton" type="button" id="addItemButton">Add Item</button>
 			</div>
 		</form>
 		<script type="text/javascript" src="{{ url_for('static', filename='indexnew.js') }}"></script>

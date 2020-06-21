@@ -24,6 +24,7 @@ function itemType(c){
 	// console.log("this.counter : " + this.counter);
 	// console.log("count : " + count);
 	const divItemType = document.createElement("div");
+	divItemType.setAttribute("class","itemTypeCard")
 	const select = [];
 	select[count] = document.createElement("select");
 	select[count].id = count;
@@ -68,6 +69,7 @@ function getChoosenItem(selected){
 	const value = selected.text;
 	orderItemsArray[count].itemType = value;
 	divParent[count] = document.createElement("div");
+	divParent[count].setAttribute("class","card");
 
 	if (value == "Long Copy"){
 		itemQuantity(count);
