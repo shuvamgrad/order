@@ -56,7 +56,7 @@ function itemType(c){
 	optionspiral.innerHTML = "Spiral Notebook";
 
 	divParentItemType.append(divItemType);
-	divItemType.setAttribute("class","form-group");
+	//divItemType.setAttribute("class","form-group");
 
 }
 
@@ -188,7 +188,7 @@ function itemQuantity(c){
 	QnumData.append(o15000);
 
 
-	divItemQuantity.setAttribute("class","form-group");
+	divItemQuantity.setAttribute("class","itemDivHead");
 
 	divItemQuantity.append(inputQtyLabel);
 	divItemQuantity.append(inputQuantity);
@@ -217,7 +217,7 @@ function itemNoOfPages(c){
 	const divItemNoPages = document.createElement("div");
 	const inputNoPagesLabel = document.createElement("label");
 	const inputNopages = document.createElement("input");
-	inputNoPagesLabel.innerHTML = "Please type number of pages in item";
+	inputNoPagesLabel.innerHTML = "Please type number of pages in item: ";
 	inputNoPagesLabel.setAttribute("for","inputNopages");
 	inputNopages.setAttribute("type","number");
 	inputNopages.setAttribute("name","inputNopages");
@@ -227,7 +227,7 @@ function itemNoOfPages(c){
 	inputNopages.setAttribute("step","4");
 	inputNopages.setAttribute("value","0");
 
-	divItemNoPages.setAttribute("class","form-group");
+	divItemNoPages.setAttribute("class","itemDivHead");
 
 	divItemNoPages.append(inputNoPagesLabel);
 	divItemNoPages.append(inputNopages);
@@ -286,7 +286,7 @@ function itemNoOfColor(c){
 	inputMultiColor.setAttribute("id","multiColor");
 	inputMultiColor.setAttribute("value","4");
 
-	divCoverNoColor.setAttribute("class","form-group");
+	divCoverNoColor.setAttribute("class","itemDivHead");
 
 	divCoverNoColor.append(inputCoverColorLabel);
 	divCoverNoColor.append(inputSingleColor);
@@ -340,7 +340,7 @@ function itemLam(c) {
 	inputLamNo.setAttribute("id","lamNo");
 	inputLamNo.setAttribute("value","False");
 
-	divCoverLam.setAttribute("class","form-group");
+	divCoverLam.setAttribute("class","itemDivHead");
 
 	divCoverLam.append(inputCoverLamLabel);
 	divCoverLam.append(inputLamYes);
@@ -392,7 +392,7 @@ function a4Type(c) {
 	inputA4Flat.setAttribute("id","a4flat");
 	inputA4Flat.setAttribute("value","flat");
 
-	divA4Type.setAttribute("class","form-group");
+	divA4Type.setAttribute("class","itemDivHead");
 
 	divA4Type.append(inputA4TypeLabel);
 	divA4Type.append(inputA4);
@@ -445,7 +445,7 @@ function spiralType(c) {
 
 	orderItemsArray[count].spiralType = selectSpiral.value;
 	divParent[count].append(divSpiralType);
-	divSpiralType.setAttribute("class","form-group");
+	divSpiralType.setAttribute("class","itemDivHead");
 }
 	
 //for error
@@ -464,6 +464,7 @@ function removeItem(c){
 	buttonRemoveItem.innerHTML = "Remove Item";
 	buttonRemoveItem.setAttribute("type","button");
 	buttonRemoveItem.setAttribute("id","removeItemButton");
+	buttonRemoveItem.setAttribute("class","removeButton");
 	//buttonRemoveItem.setAttribute("onclick","decrementCounter(\'' + count + '\');");
 	buttonRemoveItem.addEventListener('click',function(){
 		decrementCounter(count);

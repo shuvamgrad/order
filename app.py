@@ -69,4 +69,3 @@ def confirmOrder():
 	#return render_template("flight.html", flight=flight, passengers=passengers)"""
 
 
-#app.run(debug=True)
