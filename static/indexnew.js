@@ -69,7 +69,7 @@ function getChoosenItem(selected){
 	const value = selected.text;
 	orderItemsArray[count].itemType = value;
 	divParent[count] = document.createElement("div");
-	divParent[count].setAttribute("class","card");
+	divParent[count].setAttribute("class","itemcard");
 
 	if (value == "Long Copy"){
 		itemQuantity(count);

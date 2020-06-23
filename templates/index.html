@@ -8,22 +8,19 @@
 		
 
 		<form action="{{ url_for('confirmOrder') }}" method="post">
-			<div class="form-group">
-				<label for="ordername">Order Name:</label>
+			<div class="divOrderHead">
+				<label for="ordername"> Order Name: </label>
 				<input class="form-control" type="text" id="ordername" name="ordername" placeholder="Order Company Name">
-				<label for="contactname">Contact Person Name:</label>
+				<label for="contactname"> Contact Person Name: </label>
 				<input class="form-control" type="text" id="contactname" name="contactname" placeholder="Contact Person Name" required>
-				<label for="contactnumber">Contact Number:</label>
+				<label for="contactnumber"> Contact Number: </label>
 				<input class="form-control" type="Number" id="contactnumber" name="contactnumber" placeholder="Contact Number" required>
 			</div>
-
-			<hr>
-
-			<div class="form-group">
-				<h1> Your order Details:</h1>
+			<div class="orderDetail">
+				<h1 id="orderDetailID"> Your order Details:</h1>
 			</div>
 
-			<div class="itemcard" id="parent">
+			<div class="card" id="parent">
 			</div>
 
 			<div class="ADDdiv" id="addItemDiv">
