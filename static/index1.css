@@ -28,18 +28,11 @@ body {
 .itemcard {
   /* Add shadows to create the "card" effect */
   width: auto;
-  max-width: 60%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  margin: auto;
-  padding: 12px 0;
-  border-radius: 12px;
-  border: 3px solid black;
+  transition: 5.3s;
+  margin: 0 5px;
   background-color: #b0bec5;
-  text-align: center;
-}
-
-.divCard {
-  display: inline-block;
+  padding: 9px;
 
 }
 

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Order</title>
+		<link rel="stylesheet" type="text/css" href="static/index.css">
+	</head>
+	<body>
+		
+
+		<form action="{{ url_for('confirmOrder') }}" method="post">
+			<div class="divOrderHead">
+				<label for="ordername"> Order Name: </label>
+				<input class="form-control" type="text" id="ordername" name="ordername" placeholder="Order Company Name">
+				<label for="contactname"> Contact Person Name: </label>
+				<input class="form-control" type="text" id="contactname" name="contactname" placeholder="Contact Person Name" required>
+				<label for="contactnumber"> Contact Number: </label>
+				<input class="form-control" type="Number" id="contactnumber" name="contactnumber" placeholder="Contact Number" required>
+			</div>
+			<div class="orderDetail">
+				<h1 id="orderDetailID"> Your order Details:</h1>
+			</div>
+
+			<div class="card" id="parent">
+			</div>
+
+			<div class="ADDdiv" id="addItemDiv">
+				<button class="addButton" type="button" id="addItemButton">Add Item</button>
+			</div>
+		</form>
+		<script type="text/javascript" src="{{ url_for('static', filename='indexnew.js') }}"></script>
+	</body>
+</html>

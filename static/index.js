@@ -1,121 +1,201 @@
 var counter = 0;
-var divparent = document.createElement("div");
-var divParentItemType = document.getElementById("parent");
+var orderItemsArray = [];
+var divParent = document.getElementById("parent");
 
-if (counter == 0){
-	itemType();
-	counter += 1;
-}
-
-function addItem(){
-	itemType();
-	counter +=1;
-}
-
-
-
-//GET ITEM TYPE
-function itemType(){
-	const divItemType = document.createElement("div");
-	const select = document.createElement("select");
-	const optionlong = document.createElement("option");
-	const optiona4 = document.createElement("option");
-	const optionexam = document.createElement("option");
-	const optiondiary = document.createElement("option");
-	const optionregister = document.createElement("option");
-	const optionspiral = document.createElement("option");
-
-	select.append(optionlong);
-	select.append(optiona4);
-	select.append(optionexam);
-	select.append(optiondiary);
-	select.append(optionregister);
-	select.append(optionspiral);
-
-	select.setAttribute("onchange","getChoosenItem(this.options[this.selectedIndex].text);");
-
-	divItemType.append(select);
-
-	optionlong.innerHTML = "Long Copy";
-	optiona4.innerHTML = "A4 Copy";
-	optionexam.innerHTML = "Exam Copy";
-	optiondiary.innerHTML = "School Diary";
-	optionregister.innerHTML = "Register";
-	optionspiral.innerHTML = "Spiral Notebook";
-
-	divParentItemType.append(divItemType);
-	divItemType.setAttribute("class","form-group");
-}
-
-function getChoosenItem(selected){
+function submitFormFun(){
+	if (validateInput()) {
+		orderItemsArray[counter] = orderItems;
+		console.log(orderItemsArray[counter]);
+		counter++;
+		document.getElementById("itemForm").submit();
+	}
+	else
+		alert("Input is not correct, please check");
+	// orderItems.itemQuantity = inputQuantity.value;
+	// orderItems.itemNoOfPages = inputNopages.value;
 	
-	if (selected == "Long Copy"){
-		clearParent(divparent);
+
+	//document.getElementById("itemForm").submit();
+}
+
+
+function itemCheckNoColor(){
+	singleColor = document.getElementById("singleColor");
+	twoColor = document.getElementById("twoColor");
+	multiColor = document.getElementById("multiColor");
+
+	if (singleColor.checked) {
+		orderItems.itemNoColor = singleColor.value;
+	}
+	else if (twoColor.checked) {
+		orderItems.itemNoColor = twoColor.value;
+	}
+	else if (multiColor.checked) {
+		orderItems.itemNoColor = multiColor.value;
+	}
+	else return false;
+}
+
+
+function itemCheckLam(){
+	lamYes = document.getElementById("lamYes");
+	lamNo = document.getElementById("lamNo");
+
+	if (lamYes.checked) {
+		orderItems.itemLam = lamYes.value;
+	}
+	else if (lamNo.checked) {
+		orderItems.itemLam = lamNo.value;
+	}
+	else return false;
+}
+
+function itemCheckA4Type(){
+	a4Normal = document.getElementById("a4");
+	a4Flat = document.getElementById("a4flat");
+
+	if (a4Normal.checked) {
+		orderItems.a4type = a4Normal.value;
+	}
+	else if (a4Flat.checked) {
+		orderItems.a4type = a4Flat.value;
+	}
+	else return false;
+}
+
+
+
+function validateInput(){
+	const itemType = document.getElementById("orderType").value;
+	const itemQuantity = parseInt(inputQuantity.value);
+	const itemNoOfPages = parseInt(inputNopages.value);
+	
+	if (itemQuantity == "" || itemQuantity < 500) {
+			return false;
+		}
+	if (itemNoOfPages == "") {
+			return false;
+		}
+	orderItems = {};
+	orderItems.id = counter;
+	// singleColor = document.getElementById("singleColor");
+	// twoColor = document.getElementById("twoColor");
+	// multiColor = document.getElementById("multiColor");
+	// lamYes = document.getElementById("lamYes");
+	// lamNo = document.getElementById("lamNo");
+
+	if (itemType == "Long Copy") {
+		orderItems.itemType = itemType;
+		orderItems.itemQuantity = itemQuantity;
+		orderItems.itemNoOfPages = itemNoOfPages;
+		itemCheckNoColor();
+		itemCheckLam();
+		return true;
+	}
+	else if (itemType == "A4 Copy") {
+		orderItems.itemType = itemType;
+		orderItems.itemQuantity = itemQuantity;
+		orderItems.itemNoOfPages = itemNoOfPages;
+		itemCheckNoColor();
+		itemCheckLam();
+		itemCheckA4Type();
+		return true;
+	}
+	else if (itemType == "Exam Copy") {
+		orderItems.itemType = itemType;
+		orderItems.itemQuantity = itemQuantity;
+		orderItems.itemNoOfPages = itemNoOfPages;
+		return true;
+	}
+	else if (itemType == "School Diary") {
+		orderItems.itemType = itemType;
+		orderItems.itemQuantity = itemQuantity;
+		orderItems.itemNoOfPages = itemNoOfPages;
+		itemCheckNoColor();
+		itemCheckLam();
+		return true;
+	}
+	else if (itemType == "Register") {
+		orderItems.itemType = itemType;
+		orderItems.itemQuantity = itemQuantity;
+		orderItems.itemNoOfPages = itemNoOfPages;
+		itemCheckNoColor();
+		itemCheckLam();
+		return true;
+	}
+	else if (itemType == "Spiral Notebook") {
+		orderItems.itemType = itemType;
+		orderItems.itemQuantity = itemQuantity;
+		orderItems.itemNoOfPages = itemNoOfPages;
+		itemCheckNoColor();
+		itemCheckLam();
+		orderItems.sprialType = document.getElementById("spiralType").value;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+function moreOptions(){
+	const value = document.getElementById("orderType").value;
+	//orderItemsArray[count].itemType = value;
+	//orderItems = {};
+	//orderItems.id = counter;
+	//orderItems.itemType = value;
+	divParent.innerHTML = "";
+	console.log(value);
+
+	if (value == "Long Copy"){
 		itemQuantity();
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
-		addItemButton();
-		divParentItemType.append(divparent);
+		//removeItemFun(count);
 	}
-	else if (selected == "A4 Copy"){
-		clearParent(divparent);
+	else if (value == "A4 Copy"){
 		a4Type();
 		itemQuantity();
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
-		addItemButton();
-		divParentItemType.append(divparent);
+		//removeItemFun(count);
 	}
-	else if (selected == "Exam Copy"){
-		clearParent(divparent);
+	else if (value == "Exam Copy"){
 		itemQuantity();
 		itemNoOfPages();
-		addItemButton();
-		divParentItemType.append(divparent);
+		//removeItemFun(count);
 	}
-	else if (selected == "School Diary"){
-		clearParent(divparent);
+	else if (value == "School Diary"){
 		itemQuantity();
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
-		addItemButton();
-		divParentItemType.append(divparent);
+		//removeItemFun(count);
 	}
-	else if (selected == "Register"){
-		clearParent(divparent);
+	else if (value == "Register"){
 		itemQuantity();
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
-		addItemButton();
-		divParentItemType.append(divparent);
+		//removeItemFun(count);
 	}
-	else if (selected == "Spiral Notebook"){
-		clearParent(divparent);
+	else if (value == "Spiral Notebook"){
 		spiralType();
 		itemQuantity();
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
-		addItemButton();
-		divParentItemType.append(divparent);
+		//removeItemFun(count);
 	}
 	else{
-		clearParent(divparent);
 		error("Item Not Found");
-		divParentItemType.append(divparent);
 	}
 }
 
-function clearParent(p){
-	p.querySelectorAll('*').forEach(n => n.remove());
-}
 
-//GET ITEM QUANTITY
 function itemQuantity(){
+	//const count = c;
 	const divItemQuantity = document.createElement("div");
 	const inputQtyLabel = document.createElement("label");
 	const inputQuantity = document.createElement("input");
@@ -125,7 +205,11 @@ function itemQuantity(){
 	inputQuantity.setAttribute("name","inputQuantity");
 	inputQuantity.setAttribute("id","inputQuantity");
 	inputQuantity.setAttribute("list","defaultQnumbers");
-
+	//inputQuantity.setAttribute("value","{{ orderQuantity }}");
+	//inputQuantity.setAttribute("required",true);
+	// const p = document.createElement("p");
+	// p.innerHTML = "{{ orderQuantity }}"
+	// divItemQuantity.append(p);
 	const QnumData = document.createElement("datalist");
 	QnumData.setAttribute("id","defaultQnumbers");
 	const o500 = document.createElement("option");
@@ -156,13 +240,19 @@ function itemQuantity(){
 	QnumData.append(o10000);
 	QnumData.append(o15000);
 
-	divItemQuantity.setAttribute("class","form-group");
+
+	divItemQuantity.setAttribute("class","itemDivHead");
 
 	divItemQuantity.append(inputQtyLabel);
 	divItemQuantity.append(inputQuantity);
 	divItemQuantity.append(QnumData);
 
-	divparent.append(divItemQuantity);
+	//orderItems.itemQuantity = inputQuantity.value;
+
+	divParent.append(divItemQuantity);
+
+	//console.log(divParentItemType);
+	//console.log(divParent);
 }
 
 
@@ -176,10 +266,11 @@ function itemQuantity(){
 
 //GET ITEM NO OF PAGES
 function itemNoOfPages(){
+	//const count = c;
 	const divItemNoPages = document.createElement("div");
 	const inputNoPagesLabel = document.createElement("label");
 	const inputNopages = document.createElement("input");
-	inputNoPagesLabel.innerHTML = "Please type number of pages in item";
+	inputNoPagesLabel.innerHTML = "Please type number of pages in item: ";
 	inputNoPagesLabel.setAttribute("for","inputNopages");
 	inputNopages.setAttribute("type","number");
 	inputNopages.setAttribute("name","inputNopages");
@@ -187,14 +278,15 @@ function itemNoOfPages(){
 	inputNopages.setAttribute("min","4");
 	inputNopages.setAttribute("max","2000");
 	inputNopages.setAttribute("step","4");
-	inputNopages.setAttribute("value","0");
+	inputNopages.setAttribute("value","{{ noOfPages }}");
 
-	divItemNoPages.setAttribute("class","form-group");
+	divItemNoPages.setAttribute("class","itemDivHead");
 
 	divItemNoPages.append(inputNoPagesLabel);
 	divItemNoPages.append(inputNopages);
 
-	divparent.append(divItemNoPages);
+	//orderItems.itemNoOfPages = inputNopages.value;
+	divParent.append(divItemNoPages);
 }
 
 
@@ -211,6 +303,7 @@ function itemNoOfPages(){
 
 //GET COVER DESIGN NO. OF COLOR
 function itemNoOfColor(){
+	//const count = c;
 	const divCoverNoColor = document.createElement("div");
 	const inputCoverColorLabel = document.createElement("label");
 	const inputSingleColor = document.createElement("input");
@@ -246,7 +339,7 @@ function itemNoOfColor(){
 	inputMultiColor.setAttribute("id","multiColor");
 	inputMultiColor.setAttribute("value","4");
 
-	divCoverNoColor.setAttribute("class","form-group");
+	divCoverNoColor.setAttribute("class","itemDivHead");
 
 	divCoverNoColor.append(inputCoverColorLabel);
 	divCoverNoColor.append(inputSingleColor);
@@ -256,7 +349,9 @@ function itemNoOfColor(){
 	divCoverNoColor.append(inputMultiColor);
 	divCoverNoColor.append(inputMultiColorLabel);
 
-	divparent.append(divCoverNoColor);
+	//orderItems.itemNoOfColor = document.getElementsByName("coverColor").value;
+
+	divParent.append(divCoverNoColor);
 
 } 
 
@@ -271,6 +366,7 @@ function itemNoOfColor(){
 
 //GET LAMINATION YES OR NO
 function itemLam() {
+	//const count = c;
 	const divCoverLam = document.createElement("div");
 	const inputCoverLamLabel = document.createElement("label");
 	const inputLamYes = document.createElement("input");
@@ -289,15 +385,15 @@ function itemLam() {
 	inputLamYes.setAttribute("type","radio");
 	inputLamYes.setAttribute("name","coverLam");
 	inputLamYes.setAttribute("id","lamYes");
-	inputLamYes.setAttribute("value","True");
+	inputLamYes.setAttribute("value","true");
 	inputLamYes.setAttribute("checked","True");
 
 	inputLamNo.setAttribute("type","radio");
 	inputLamNo.setAttribute("name","coverLam");
 	inputLamNo.setAttribute("id","lamNo");
-	inputLamNo.setAttribute("value","False");
+	inputLamNo.setAttribute("value","false");
 
-	divCoverLam.setAttribute("class","form-group");
+	divCoverLam.setAttribute("class","itemDivHead");
 
 	divCoverLam.append(inputCoverLamLabel);
 	divCoverLam.append(inputLamYes);
@@ -305,7 +401,9 @@ function itemLam() {
 	divCoverLam.append(inputLamNo);
 	divCoverLam.append(inputLamNoLabel);
 
-	divparent.append(divCoverLam);
+	//orderItems.itemLam = document.getElementsByName("coverLam").value;
+
+	divParent.append(divCoverLam);
 
 }
 
@@ -320,6 +418,7 @@ function itemLam() {
 
 //GET A4 Type
 function a4Type() {
+	//const count = c;
 	const divA4Type = document.createElement("div");
 	const inputA4TypeLabel = document.createElement("label");
 	const inputA4 = document.createElement("input");
@@ -346,7 +445,7 @@ function a4Type() {
 	inputA4Flat.setAttribute("id","a4flat");
 	inputA4Flat.setAttribute("value","flat");
 
-	divA4Type.setAttribute("class","form-group");
+	divA4Type.setAttribute("class","itemDivHead");
 
 	divA4Type.append(inputA4TypeLabel);
 	divA4Type.append(inputA4);
@@ -354,7 +453,12 @@ function a4Type() {
 	divA4Type.append(inputA4Flat);
 	divA4Type.append(inputA4FlatLabel);
 
-	divparent.append(divA4Type);
+	//orderItems.a4Type = document.getElementsByName("a4type").value;
+	//console.log(count);
+	//console.log(counter);
+	//console.log(divParent[0]);
+
+	divParent.append(divA4Type);
 
 }
 	
@@ -370,9 +474,11 @@ function a4Type() {
 </div>*/
 //Get Spiral Type
 function spiralType() {
+	//const count = c;
 	const divSpiralType = document.createElement("div");
 	const inputSpiralTypeLabel = document.createElement("label");
 	const selectSpiral = document.createElement("select");
+	selectSpiral.setAttribute("id","spiralType");
 	const optionA4spiral = document.createElement("option");
 	const optionA5spiral = document.createElement("option");
 	const optionB5spiral = document.createElement("option");
@@ -391,27 +497,14 @@ function spiralType() {
 	optionA5spiral.innerHTML = "A5 Spiral";
 	optionB5spiral.innerHTML = "B5 Spiral";
 
-	divparent.append(divSpiralType);
-	divSpiralType.setAttribute("class","form-group");
+	//orderItems.spiralType = selectSpiral.value;
+	divParent.append(divSpiralType);
+	divSpiralType.setAttribute("class","itemDivHead");
 }
 	
 //for error
 function error(errorMessage) {
-	const diverror = document.createElement("div");
 	const h1error = document.createElement("h1");
 	h1error.innerHTML = errorMessage;
-}
-
-//add item button
-function addItemButton() {
-	const divAddItemButton = document.createElement("div");
-	const buttonAddItem = document.createElement("button");
-
-	buttonAddItem.innerHTML = "Add another Item";
-	buttonAddItem.setAttribute("type","button");
-	buttonAddItem.setAttribute("id","addButtonItem");
-	buttonAddItem.setAttribute("onclick","addItem();");
-
-	divAddItemButton.append(buttonAddItem);
-	divparent.append(divAddItemButton);
+	alert(h1error.innerHTML);
 }

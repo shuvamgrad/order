@@ -1,12 +1,16 @@
 {% extends "layout.html" %}
 
 {% block title %}
-	BOOKED
+	Order Confirmation
 {% endblock %}
 
 {% block body %}
-	<h1>Success!</h1>
-
-	You have successfully booked your flight.
+	
+	<form action="{{ url_for('editItem') }}" method="get">
+		<h1> Item : </h1>
+		<p><span id="noOfPages">{{ itemnoOfPages }}</span> pages,<span id="orderType">{{ itemType }}</span>  -  quantity : <span id="itemQuantity">{{ itemQuantity }}</span>pcs</p>
+		<p> Quotation: <strong>{{ itemcostingOfpaper }}</strong></p>
+		<button type="submit">Edit Item</button>
+	</form>
 
 {% endblock %}
