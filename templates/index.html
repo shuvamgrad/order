@@ -12,7 +12,12 @@
 				<label for="ordername"> Order Name: </label>
 				<input class="form-control" type="text" id="ordername" name="ordername" placeholder="Order Company Name">
 				<label for="contactname"> Contact Person Name: </label>
-				<input class="form-control" type="text" id="contactname" name="contactname" placeholder="Contact Person Name" required>
+				<input class="form-control" type="text" id="contactname" name="contactname" placeholder="Contact Person Name" list="custNames"required>
+				<datalist id="custNames">
+					{% for customer in customers %}
+						<option value="{{ customer.name }}">{{ customer.name }}</option>
+					{% endfor %}
+				</datalist>
 				<label for="contactnumber"> Contact Number: </label>
 				<input class="form-control" type="Number" id="contactnumber" name="contactnumber" placeholder="Contact Number" required>
 			</div>
@@ -22,7 +27,6 @@
 					<h1>Enter Item Details: </h1>
 					
 					<label for="orderType">Type of item:</label>
-					<p>{{ orderTypeName }}</p>
 					<select class="form-control" name="orderType" id="orderType" onchange="moreOptions()" value="{{ orderType }}">
 						<option value="" selected disabled hidden>--Choose--</option>
 						<option id="long" value="Long Copy">Long Copy</option>

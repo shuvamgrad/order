@@ -1,17 +1,18 @@
 import os
+import math
 
 from flask import Flask, render_template, request
-#from models import *
-from sqlalchemy import create_engine
+from models1 import *
+from sqlalchemy import create_engine, and_
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
-#app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL_1")
-#app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-#db.init_app(app)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db.init_app(app)
 
-engine = create_engine(os.getenv("DATABASE_URL"))
-db = scoped_session(sessionmaker(bind=engine))
+# engine = create_engine(os.getenv("DATABASE_URL"))
+# db = scoped_session(sessionmaker(bind=engine))
 
 
 @app.route("/")
@@ -20,22 +21,27 @@ def index():
 	#flights = db.execute("SELECT * FROM flight").fetchall()
 
 	#return render_template("index.html", flights=flights)
-
-	return render_template("index.html")
+	customers = Customer.query.all()
+	return render_template("index.html", customers=customers)
 
 @app.route("/confirmOrder", methods=["POST"])
 def confirmOrder():
 	"""BOOK a flight."""
 
 	#GEt form information
-	itemType = request.form.get("orderType");
-	itemQuantity = int(request.form.get("inputQuantity"));
-	itemnoOfPages = int(request.form.get("inputNopages"));
+	custName = request.form.get("contactname")
+	custNum = request.form.get("contactnumber")
+
+	itemType = request.form.get("orderType")
+	itemQuantity = int(request.form.get("inputQuantity"))
+	itemnoOfPages = int(request.form.get("inputNopages"))
 
 
 	if(itemType == "Long Copy"):
-		itemnoOfColor = request.form.get("coverColor");
+		itemnoOfColor = int(request.form.get("coverColor"));
 		itemLam = request.form.get("coverLam");
+
+		#paper costing
 		paperLength = 47;
 		paperBreath = 70;
 		paperGsm = 58;
@@ -44,6 +50,45 @@ def confirmOrder():
 		paperReamRate = paperWeight * paperRatePerKg;
 		noOfPagesPerSheet = 16;
 		itemcostingOfpaper = (paperReamRate/(noOfPagesPerSheet * 500))*(itemnoOfPages-4);
+
+		#cover costing
+		coverLength = 48;
+		coverBreath = 72;
+		coverGsm = 200;
+		coverWeight = (coverLength * coverBreath * coverGsm)/20000;
+		coverRatePerKg = 110;
+		coverReamRate = coverWeight * coverRatePerKg;
+		noOfCoverPerSheet = 4;
+		itemCostingOfCover = (coverReamRate/(noOfCoverPerSheet * 500)) * 1.05
+
+		#printing costing
+		noOfCoverSheetReq = (itemQuantity/noOfCoverPerSheet)*1.05
+		noOfImpression = noOfCoverSheetReq*2*itemnoOfColor
+		costOfPrinting = math.ceil(noOfImpression/1000)*200
+
+		print("Cost OF printing : ", costOfPrinting)
+
+		costOfPlates = 400*itemnoOfColor
+
+		#Lamination cost
+		if(itemLam):
+			LamCost = int((coverLength/2.54) * (coverBreath/2.54) * 0.01 * 0.6 * noOfCoverSheetReq)
+		else:
+			LamCost = 0 
+
+		print("lamCOst:",LamCost)
+
+		#labour cost
+		labour = Labour.query.filter(and_(Labour.no_of_pages==itemnoOfPages,Labour.type==itemType)).first()
+		labourCost = float(labour.cost)
+
+		print("labourCost : ",labourCost)
+
+		finalCost = itemcostingOfpaper + itemCostingOfCover + (costOfPrinting + costOfPlates + LamCost)/itemQuantity + labourCost
+
+		quotation = finalCost * 1.32
+
+
 	elif(itemType == "A4 Copy"):
 		itemnoOfColor = request.form.get("coverColor");
 		itemLam = request.form.get("coverLam");
@@ -55,7 +100,7 @@ def confirmOrder():
 		paperRatePerKg = 135;
 		paperReamRate = paperWeight * paperRatePerKg;
 		noOfPagesPerSheet = 16;
-		itemcostingOfpaper = (paperReamRate/(noOfPagesPerSheet * 500))*(itemsnoOfPages-4);
+		itemcostingOfpaper = (paperReamRate/(noOfPagesPerSheet * 500))*(itemnoOfPages-4);
 	elif(itemType == "Exam Copy"):
 		paperLength = 44;
 		paperBreath = 55;
@@ -68,10 +113,26 @@ def confirmOrder():
 	else:
 		itemcostingOfpaper = None;
 
+	
+	cust = Customer.query.filter_by(name=custName).first()
 
-		db.execute("INSERT INTO apolloorder (type,quantity,pages) VALUES (:type, :quantity, :pages)",
-			{"type": itemType, "quantity": itemQuantity, "pages": itemnoOfPages})
-		db.commit()
+	#item = OrderItem(itemType,itemQuantity,itemnoOfPages)
+
+	if cust is None:
+		#return render_template("error.html",error="No Such Customer")
+		customer = Customer(name=custName,phone=custNum)
+		db.session.add(customer)
+		db.session.commit()
+		customer.add_item(itemType,itemQuantity,itemnoOfPages)
+	else:
+		cust.add_item(itemType,itemQuantity,itemnoOfPages)
+
+	
+	
+
+	# db.execute("INSERT INTO apolloorder (type,quantity,pages) VALUES (:type, :quantity, :pages)",
+	# 		{"type": itemType, "quantity": itemQuantity, "pages": itemnoOfPages})
+	# db.commit()
 
 
 
@@ -80,7 +141,7 @@ def confirmOrder():
 #		return render_template("index.html",orderType=orderType, orderQuantity=orderQuantity, noOfPages=noOfPages);
 
 
-	return render_template("success.html", itemType=itemType, itemQuantity=itemQuantity, itemnoOfPages=itemnoOfPages, itemcostingOfpaper=itemcostingOfpaper);
+	return render_template("success.html", itemType=itemType, itemQuantity=itemQuantity, itemnoOfPages=itemnoOfPages, itemcostingOfpaper=quotation);
 
 
 

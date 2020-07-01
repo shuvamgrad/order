@@ -66,10 +66,18 @@ function itemCheckA4Type(){
 
 
 function validateInput(){
+
+	const custName = document.getElementById("contactname").value;
+	const custNum = document.getElementById("contactnumber").value;
+
 	const itemType = document.getElementById("orderType").value;
 	const itemQuantity = parseInt(inputQuantity.value);
 	const itemNoOfPages = parseInt(inputNopages.value);
 	
+	if (custName == "" || custNum == "") {
+		return false;
+	}
+
 	if (itemQuantity == "" || itemQuantity < 500) {
 			return false;
 		}
