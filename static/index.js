@@ -11,11 +11,6 @@ function submitFormFun(){
 	}
 	else
 		alert("Input is not correct, please check");
-	// orderItems.itemQuantity = inputQuantity.value;
-	// orderItems.itemNoOfPages = inputNopages.value;
-	
-
-	//document.getElementById("itemForm").submit();
 }
 
 
@@ -86,11 +81,6 @@ function validateInput(){
 		}
 	orderItems = {};
 	orderItems.id = counter;
-	// singleColor = document.getElementById("singleColor");
-	// twoColor = document.getElementById("twoColor");
-	// multiColor = document.getElementById("multiColor");
-	// lamYes = document.getElementById("lamYes");
-	// lamNo = document.getElementById("lamNo");
 
 	if (itemType == "Long Copy") {
 		orderItems.itemType = itemType;
@@ -159,6 +149,7 @@ function moreOptions(){
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
+		specialQuery();
 		//removeItemFun(count);
 	}
 	else if (value == "A4 Copy"){
@@ -263,15 +254,6 @@ function itemQuantity(){
 	//console.log(divParent);
 }
 
-
-
-
-/*<div class="form-group">
-	<label for="orderPage">Number of pages:</label>
-	<span id="orderpagehint">Please type number of pages in each notebook.For example, if you want 200 pages(i.e 100panna) inside cover, type 204 pages.</span>	
-	<input type="number" name="orderPage" id="orderPage" min="4" max="2000" step="4" value="0">	
-</div>*/
-
 //GET ITEM NO OF PAGES
 function itemNoOfPages(){
 	//const count = c;
@@ -298,188 +280,35 @@ function itemNoOfPages(){
 }
 
 
-
-/*<div class="form-group">
-	<label for="coverColor">Cover Design:</label>	
-	<input type="radio" name="coverColor" id="single" value="1" checked>
-	<label for="single">Single Color</label>
-	<input type="radio" name="coverColor" id="two" value="2">
-	<label for="two">Two Color</label>
-	<input type="radio" name="coverColor" id="multi" value="4">
-	<label for="multi">Multi Color</label>
-</div>*/
-
 //GET COVER DESIGN NO. OF COLOR
 function itemNoOfColor(){
-	//const count = c;
-	const divCoverNoColor = document.createElement("div");
-	const inputCoverColorLabel = document.createElement("label");
-	const inputSingleColor = document.createElement("input");
-	const inputSingleColorLabel = document.createElement("label");
-	const inputTwoColor = document.createElement("input");
-	const inputTwoColorLabel = document.createElement("label");
-	const inputMultiColorLabel = document.createElement("label");
-	const inputMultiColor = document.createElement("input");
-
-	inputCoverColorLabel.innerHTML = "No. of color in cover design : ";
-	inputCoverColorLabel.setAttribute("for","coverColor");
-	inputSingleColorLabel.innerHTML = "Single Color";
-	inputSingleColorLabel.setAttribute("for","singleColor");
-	inputTwoColorLabel.innerHTML = "Two Color";
-	inputTwoColorLabel.setAttribute("for","twoColor");
-	inputMultiColorLabel.innerHTML = "Multi Color";
-	inputMultiColorLabel.setAttribute("for","multiColor");
-
-	inputSingleColor.setAttribute("type","radio");
-	inputSingleColor.setAttribute("name","coverColor");
-	inputSingleColor.setAttribute("id","singleColor");
-	inputSingleColor.setAttribute("value","1");
-	inputSingleColor.setAttribute("checked","True");
-
-	inputTwoColor.setAttribute("type","radio");
-	inputTwoColor.setAttribute("name","coverColor");
-	inputTwoColor.setAttribute("id","twoColor");
-	inputTwoColor.setAttribute("value","2");
-
-
-	inputMultiColor.setAttribute("type","radio");
-	inputMultiColor.setAttribute("name","coverColor");
-	inputMultiColor.setAttribute("id","multiColor");
-	inputMultiColor.setAttribute("value","4");
-
-	divCoverNoColor.setAttribute("class","itemDivHead");
-
-	divCoverNoColor.append(inputCoverColorLabel);
-	divCoverNoColor.append(inputSingleColor);
-	divCoverNoColor.append(inputSingleColorLabel);
-	divCoverNoColor.append(inputTwoColor);
-	divCoverNoColor.append(inputTwoColorLabel);
-	divCoverNoColor.append(inputMultiColor);
-	divCoverNoColor.append(inputMultiColorLabel);
-
-	//orderItems.itemNoOfColor = document.getElementsByName("coverColor").value;
-
-	divParent.append(divCoverNoColor);
-
+	const noOfColorRadioArray = [{"id":"coverColor","message":"No. of color in cover design :"},
+								{"value":1,"id":"singleColor","message":"Single Color","checked":true},
+								{"value":2,"id":"twoColor","message":"Two Color","checked":false},
+								{"value":4,"id":"multiColor","message":"Multi Color","checked":false}
+								];
+	divParent.append(createRadioButtons(noOfColorRadioArray));
 } 
-
-
-/*<div class="form-group">
-	<label for="coverLam">Do you want lamination in cover:</label>	
-	<input type="radio" name="coverLam" id="lamYes" value="yes" checked>
-	<label for="lamYes">Yes</label>
-	<input type="radio" name="coverLam" id="lamNo" value="no">
-	<label for="lamNo">No</label>
-</div>*/
 
 //GET LAMINATION YES OR NO
 function itemLam() {
-	//const count = c;
-	const divCoverLam = document.createElement("div");
-	const inputCoverLamLabel = document.createElement("label");
-	const inputLamYes = document.createElement("input");
-	const inputLamYesLabel = document.createElement("label");
-	const inputLamNo = document.createElement("input");
-	const inputLamNoLabel = document.createElement("label");
 
-
-	inputCoverLamLabel.innerHTML = "Do you want lamination in cover: ";
-	inputCoverLamLabel.setAttribute("for","coverLam");
-	inputLamYesLabel.innerHTML = "Yes";
-	inputLamYesLabel.setAttribute("for","lamYes");
-	inputLamNoLabel.innerHTML = "No";
-	inputLamNoLabel.setAttribute("for","lamNo");
-
-	inputLamYes.setAttribute("type","radio");
-	inputLamYes.setAttribute("name","coverLam");
-	inputLamYes.setAttribute("id","lamYes");
-	inputLamYes.setAttribute("value","true");
-	inputLamYes.setAttribute("checked","True");
-
-	inputLamNo.setAttribute("type","radio");
-	inputLamNo.setAttribute("name","coverLam");
-	inputLamNo.setAttribute("id","lamNo");
-	inputLamNo.setAttribute("value","false");
-
-	divCoverLam.setAttribute("class","itemDivHead");
-
-	divCoverLam.append(inputCoverLamLabel);
-	divCoverLam.append(inputLamYes);
-	divCoverLam.append(inputLamYesLabel);
-	divCoverLam.append(inputLamNo);
-	divCoverLam.append(inputLamNoLabel);
-
-	//orderItems.itemLam = document.getElementsByName("coverLam").value;
-
-	divParent.append(divCoverLam);
-
+	const lamRadioArray = [{"id":"coverlam","message":"Do you want lamination in cover :"},
+								{"value":true,"id":"lamYes","message":"Yes","checked":true},
+								{"value":false,"id":"lamNo","message":"No","checked":false},
+								];
+	divParent.append(createRadioButtons(lamRadioArray));
 }
-
-
-/*<div class="form-group" id="moreA4" style="display: none">
-	<label for="a4type">Which A4 copy:</label>	
-	<input type="radio" name="a4type" id="a4normal" value="a4normal" checked>
-	<label for="a4normal">A4</label>
-	<input type="radio" name="a4type" id="a4flat" value="a4flat">
-	<label for="a4flat">A4 Flat</label>
-</div>*/
 
 //GET A4 Type
 function a4Type() {
-	//const count = c;
-	const divA4Type = document.createElement("div");
-	const inputA4TypeLabel = document.createElement("label");
-	const inputA4 = document.createElement("input");
-	const inputA4Label = document.createElement("label");
-	const inputA4Flat = document.createElement("input");
-	const inputA4FlatLabel = document.createElement("label");
-
-
-	inputA4TypeLabel.innerHTML = "Type of A4 Notebook: ";
-	inputA4TypeLabel.setAttribute("for","a4type");
-	inputA4Label.innerHTML = "A4";
-	inputA4Label.setAttribute("for","a4");
-	inputA4FlatLabel.innerHTML = "A4 Flat";
-	inputA4FlatLabel.setAttribute("for","a4Flat");
-
-	inputA4.setAttribute("type","radio");
-	inputA4.setAttribute("name","a4type");
-	inputA4.setAttribute("id","a4");
-	inputA4.setAttribute("value","normal");
-	inputA4.setAttribute("checked","True");
-
-	inputA4Flat.setAttribute("type","radio");
-	inputA4Flat.setAttribute("name","a4type");
-	inputA4Flat.setAttribute("id","a4flat");
-	inputA4Flat.setAttribute("value","flat");
-
-	divA4Type.setAttribute("class","itemDivHead");
-
-	divA4Type.append(inputA4TypeLabel);
-	divA4Type.append(inputA4);
-	divA4Type.append(inputA4Label);
-	divA4Type.append(inputA4Flat);
-	divA4Type.append(inputA4FlatLabel);
-
-	//orderItems.a4Type = document.getElementsByName("a4type").value;
-	//console.log(count);
-	//console.log(counter);
-	//console.log(divParent[0]);
-
-	divParent.append(divA4Type);
-
+	const a4TypeRadioArray = [{"id":"a4Type","message":"Type of A4 Notebook :"},
+								{"value":"a4normal","id":"a4normal","message":"A4","checked":true},
+								{"value":"a4flat","id":"a4flat","message":"A4 Flat","checked":false},
+								];
+	divParent.append(createRadioButtons(a4TypeRadioArray));
 }
-	
 
-/*<div class="form-group" id="moreSpiral" style="display: none">
-	<label for="spiralsize">Size of Spiral:</label>
-
-	<select class="form-control" name="spiralsize" id="spiralsize">
-		<option value="a4spiral">A4 Spiral</option>
-		<option value="a5spiral">A5 Spiral</option>
-		<option value="b5spiral">B5 Spiral</option>
-	</select>
-</div>*/
 //Get Spiral Type
 function spiralType() {
 	//const count = c;
@@ -515,4 +344,153 @@ function error(errorMessage) {
 	const h1error = document.createElement("h1");
 	h1error.innerHTML = errorMessage;
 	alert(h1error.innerHTML);
+}
+
+
+//GET SPECIAL QUERYS
+function specialQuery(){
+	//const count = c;
+	// const divSpecialQuery = document.createElement("div");
+	// const inputSpecialQueryLabel = document.createElement("label");
+	// const inputSpecialQueryButton = document.createElement("input");
+
+	specialQueryList = {"message":"Check box of additional features :","id":"specialQueryButton","onclick":"specialQueryFun();"}
+	divParent.append(createCheckbox(specialQueryList));
+
+	// inputSpecialQueryLabel.innerHTML = "Check box for additional features :";
+	// inputSpecialQueryLabel.setAttribute("for","specialQueryButton");
+	// inputSpecialQueryButton.setAttribute("type","checkbox");
+	// inputSpecialQueryButton.setAttribute("onclick","specialQueryFun();");
+	// inputSpecialQueryButton.setAttribute("id","specialQueryButton");
+	// inputSpecialQueryButton.setAttribute("name","specialQueryButton");
+
+	// divSpecialQuery.append(inputSpecialQueryLabel);
+	// divSpecialQuery.append(inputSpecialQueryButton);
+
+	// divParent.append(divSpecialQuery);
+}
+
+
+
+function specialQueryFun(){
+	const specialQueryButton = document.getElementById("specialQueryButton");
+	const divAddSpecialQuery = document.createElement("div");
+
+
+
+	if (specialQueryButton.checked == true) {
+		divAddSpecialQuery.innerHTML = "";
+		const itemType = document.getElementById("orderType").value;
+		if (itemType == "Long Copy") {
+			divAddSpecialQuery.append(longCopySpecialQuery());
+		}
+	}
+	else {
+		divAddSpecialQuery.innerHTML = "";
+		divParent.lastElementChild.remove();
+	}
+
+	divParent.append(divAddSpecialQuery);
+
+
+
+}
+
+
+function longCopySpecialQuery(){
+	var divSpecialQueryLongCopy = document.createElement("div");
+	
+	//index
+	indexList = {"message":"Index","id":"indexCheckBox"}
+	divSpecialQueryLongCopy.append(createCheckbox(indexList))
+
+	//inside page offset print
+	insideOffsetList = {"message":"Inside pages offset print","id":"insideOffsetCheckBox"}
+	divSpecialQueryLongCopy.append(createCheckbox(insideOffsetList));
+
+	//is full size copy
+	fullSizeList = {"message":"Is copy full size","id":"fullSizeCheckBox"}
+	divSpecialQueryLongCopy.append(createCheckbox(fullSizeList));
+
+	//paper gsm
+	const papergsmRadioArray = [{"id":"paperGSM","message":"Paper GSM :"},
+								{"value":48,"id":"48gsm","message":"48 GSM","checked":false},
+								{"value":58,"id":"58gsm","message":"58 GSM","checked":true},
+								{"value":64,"id":"64gsm","message":"64 GSM","checked":false},
+								{"value":68,"id":"68gsm","message":"68 GSM","checked":false},
+								{"value":70,"id":"70gsm","message":"70 GSM","checked":false},
+								{"value":80,"id":"80gsm","message":"80 GSM","checked":false}];
+	divSpecialQueryLongCopy.append(createRadioButtons(papergsmRadioArray));
+
+	//coverType
+	const coverTypeRadioArray = [{"id":"coverType","message":"Cover Type :"},
+								{"value":"duplex","id":"duplex","message":"Duplex Cover","checked":true},
+								{"value":"tuffcoat","id":"tuffcoat","message":"Tuffcoat Cover","checked":false},
+								{"value":"artboard","id":"artboard","message":"Artboard Cover","checked":false}];
+	divSpecialQueryLongCopy.append(createRadioButtons(coverTypeRadioArray));
+
+	//cover gsm
+	const covergsmRadioArray = [{"id":"coverGsm","message":"Cover Gsm :"},
+								{"value":200,"id":"200gsm","message":"200 GSM","checked":true},
+								{"value":250,"id":"250gsm","message":"250 GSM","checked":false},
+								{"value":300,"id":"300gsm","message":"300 GSM","checked":false}];
+	divSpecialQueryLongCopy.append(createRadioButtons(covergsmRadioArray));
+	
+	//copy making style
+	const makingRadioArray = [{"id":"stitchType","message":"Making Type :"},
+								{"value":"stitch","id":"stitch","message":"Stitch Copy","checked":true},
+								{"value":"stitchport","id":"stitchport","message":"Stitch & Port","checked":false},
+								{"value":"stitchpasting","id":"stitchpasting","message":"Stitch & Pasting","checked":false},
+								{"value":"fullpasting","id":"fullpasting","message":"Full Pasting","checked":false}];
+	divSpecialQueryLongCopy.append(createRadioButtons(makingRadioArray));
+
+	return divSpecialQueryLongCopy;
+}
+
+
+
+function createCheckbox(value){
+	const divCheckBox = document.createElement("div");
+	const label = document.createElement("label");
+	const checkbox = document.createElement("input");
+	label.innerHTML = value.message;
+	checkbox.setAttribute("id",value.id);
+	checkbox.setAttribute("name",value.id);
+	checkbox.setAttribute("type","checkbox");
+	label.setAttribute("for",value.id);
+	checkbox.setAttribute("onclick",value.onclick);
+
+	divCheckBox.append(label);
+	divCheckBox.append(checkbox);
+
+	return divCheckBox;
+}
+
+function createRadioButtons(value){
+	const divRadio = document.createElement("div");
+	const inputRadio = [];
+	const inputLabel = [];
+	inputLabelRadioParent = document.createElement("label");
+	inputLabelRadioParent.setAttribute("for",value[0].id);
+	inputLabelRadioParent.innerHTML = value[0].message;
+	divRadio.append(inputLabelRadioParent);
+	for (var i = 1; i < value.length; i++) {
+		inputLabel[i] = document.createElement("label");
+		inputRadio[i] = document.createElement("input");
+		inputLabel[i].innerHTML = value[i].message;
+		inputLabel[i].setAttribute("for",value[i])
+		inputRadio[i].setAttribute("for",value[0].id);
+		inputRadio[i].setAttribute("type","radio");
+		inputRadio[i].checked = value[i].checked;
+		inputRadio[i].setAttribute("name",value[0].id);
+		inputRadio[i].setAttribute("id",value[i].id);
+		inputRadio[i].setAttribute("value",value[i].value);
+		
+		divRadio.append(inputRadio[i]);
+		divRadio.append(inputLabel[i]);
+	}
+
+	divRadio.setAttribute("class","itemDivHead");
+
+	return divRadio;
 }

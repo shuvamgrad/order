@@ -36,15 +36,31 @@ def confirmOrder():
 	itemQuantity = int(request.form.get("inputQuantity"))
 	itemnoOfPages = int(request.form.get("inputNopages"))
 
+	paperGsm = 58;
+	coverGsm = 200;
+
+
 
 	if(itemType == "Long Copy"):
 		itemnoOfColor = int(request.form.get("coverColor"));
 		itemLam = request.form.get("coverLam");
 
+
+		specialQueryButton = request.form.get("specialQueryButton");
+		if specialQueryButton:
+			getindex = request.form.get("indexCheckBox")
+			getinsideOffsetPrint = request.form.get("insideOffsetCheckBox")
+			getfullSize = request.form.get("fullSizeCheckBox")
+			paperGsm = int(request.form.get("paperGSM"))
+			getcoverType = request.form.get("coverType")
+			coverGsm = int(request.form.get("coverGsm"))
+			getstitchType = request.form.get("stitchType")
+
 		#paper costing
 		paperLength = 47;
 		paperBreath = 70;
-		paperGsm = 58;
+		#paperGsm = getpaperGsm or 58;
+		print(paperGsm)
 		paperWeight = (paperLength * paperBreath * paperGsm)/20000;
 		paperRatePerKg = 135;
 		paperReamRate = paperWeight * paperRatePerKg;
@@ -54,7 +70,7 @@ def confirmOrder():
 		#cover costing
 		coverLength = 48;
 		coverBreath = 72;
-		coverGsm = 200;
+		#coverGsm = 200;
 		coverWeight = (coverLength * coverBreath * coverGsm)/20000;
 		coverRatePerKg = 110;
 		coverReamRate = coverWeight * coverRatePerKg;
@@ -77,6 +93,13 @@ def confirmOrder():
 			LamCost = 0 
 
 		print("lamCOst:",LamCost)
+
+
+		#index cost
+		if getindex:
+			costOfPlates += 400;
+			indexImpression = (itemQuantity/noOfCoverPerSheet)*1.05*2
+			costOfPrinting += math.ceil(indexImpression/1000)*200
 
 		#labour cost
 		labour = Labour.query.filter(and_(Labour.no_of_pages==itemnoOfPages,Labour.type==itemType)).first()
