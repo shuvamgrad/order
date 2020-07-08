@@ -1,11 +1,9 @@
 var counter = 0;
-var orderItemsArray = [];
 var divParent = document.getElementById("parent");
 
 function submitFormFun(){
-	if (validateInput()) {
-		orderItemsArray[counter] = orderItems;
-		console.log(orderItemsArray[counter]);
+	validateInputsArray = ["contactname","orderType","inputQuantity","inputNopages"];
+	if (validateInput(validateInputsArray)) {
 		counter++;
 		document.getElementById("itemForm").submit();
 	}
@@ -13,134 +11,19 @@ function submitFormFun(){
 		alert("Input is not correct, please check");
 }
 
-
-function itemCheckNoColor(){
-	singleColor = document.getElementById("singleColor");
-	twoColor = document.getElementById("twoColor");
-	multiColor = document.getElementById("multiColor");
-
-	if (singleColor.checked) {
-		orderItems.itemNoColor = singleColor.value;
-	}
-	else if (twoColor.checked) {
-		orderItems.itemNoColor = twoColor.value;
-	}
-	else if (multiColor.checked) {
-		orderItems.itemNoColor = multiColor.value;
-	}
-	else return false;
-}
-
-
-function itemCheckLam(){
-	lamYes = document.getElementById("lamYes");
-	lamNo = document.getElementById("lamNo");
-
-	if (lamYes.checked) {
-		orderItems.itemLam = lamYes.value;
-	}
-	else if (lamNo.checked) {
-		orderItems.itemLam = lamNo.value;
-	}
-	else return false;
-}
-
-function itemCheckA4Type(){
-	a4Normal = document.getElementById("a4");
-	a4Flat = document.getElementById("a4flat");
-
-	if (a4Normal.checked) {
-		orderItems.a4type = a4Normal.value;
-	}
-	else if (a4Flat.checked) {
-		orderItems.a4type = a4Flat.value;
-	}
-	else return false;
-}
-
-
-
-function validateInput(){
-
-	const custName = document.getElementById("contactname").value;
-	const custNum = document.getElementById("contactnumber").value;
-
-	const itemType = document.getElementById("orderType").value;
-	const itemQuantity = parseInt(inputQuantity.value);
-	const itemNoOfPages = parseInt(inputNopages.value);
-	
-	if (custName == "" || custNum == "") {
-		return false;
-	}
-
-	if (itemQuantity == "" || itemQuantity < 500) {
+function validateInput(value){
+	for (var i = 1; i < value.length; i++) {
+		const element = document.getElementById(value[i]).value;
+		if(element == ""){
 			return false;
 		}
-	if (itemNoOfPages == "") {
-			return false;
-		}
-	orderItems = {};
-	orderItems.id = counter;
+	}
+	return true;
+}	
 
-	if (itemType == "Long Copy") {
-		orderItems.itemType = itemType;
-		orderItems.itemQuantity = itemQuantity;
-		orderItems.itemNoOfPages = itemNoOfPages;
-		itemCheckNoColor();
-		itemCheckLam();
-		return true;
-	}
-	else if (itemType == "A4 Copy") {
-		orderItems.itemType = itemType;
-		orderItems.itemQuantity = itemQuantity;
-		orderItems.itemNoOfPages = itemNoOfPages;
-		itemCheckNoColor();
-		itemCheckLam();
-		itemCheckA4Type();
-		return true;
-	}
-	else if (itemType == "Exam Copy") {
-		orderItems.itemType = itemType;
-		orderItems.itemQuantity = itemQuantity;
-		orderItems.itemNoOfPages = itemNoOfPages;
-		return true;
-	}
-	else if (itemType == "School Diary") {
-		orderItems.itemType = itemType;
-		orderItems.itemQuantity = itemQuantity;
-		orderItems.itemNoOfPages = itemNoOfPages;
-		itemCheckNoColor();
-		itemCheckLam();
-		return true;
-	}
-	else if (itemType == "Register") {
-		orderItems.itemType = itemType;
-		orderItems.itemQuantity = itemQuantity;
-		orderItems.itemNoOfPages = itemNoOfPages;
-		itemCheckNoColor();
-		itemCheckLam();
-		return true;
-	}
-	else if (itemType == "Spiral Notebook") {
-		orderItems.itemType = itemType;
-		orderItems.itemQuantity = itemQuantity;
-		orderItems.itemNoOfPages = itemNoOfPages;
-		itemCheckNoColor();
-		itemCheckLam();
-		orderItems.sprialType = document.getElementById("spiralType").value;
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
+//DOM Starts here after user selects type option
 function moreOptions(){
 	const value = document.getElementById("orderType").value;
-	//orderItemsArray[count].itemType = value;
-	//orderItems = {};
-	//orderItems.id = counter;
-	//orderItems.itemType = value;
 	divParent.innerHTML = "";
 	console.log(value);
 
@@ -150,7 +33,6 @@ function moreOptions(){
 		itemNoOfColor();
 		itemLam();
 		specialQuery();
-		//removeItemFun(count);
 	}
 	else if (value == "A4 Copy"){
 		a4Type();
@@ -158,26 +40,26 @@ function moreOptions(){
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
-		//removeItemFun(count);
+		specialQuery();
 	}
 	else if (value == "Exam Copy"){
 		itemQuantity();
 		itemNoOfPages();
-		//removeItemFun(count);
+		specialQuery();
 	}
 	else if (value == "School Diary"){
 		itemQuantity();
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
-		//removeItemFun(count);
+		specialQuery();
 	}
 	else if (value == "Register"){
 		itemQuantity();
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
-		//removeItemFun(count);
+		specialQuery();
 	}
 	else if (value == "Spiral Notebook"){
 		spiralType();
@@ -185,16 +67,16 @@ function moreOptions(){
 		itemNoOfPages();
 		itemNoOfColor();
 		itemLam();
-		//removeItemFun(count);
+		specialQuery();
 	}
 	else{
 		error("Item Not Found");
 	}
 }
-
+//9865351295
 
 function itemQuantity(){
-	//const count = c;
+
 	const divItemQuantity = document.createElement("div");
 	const inputQtyLabel = document.createElement("label");
 	const inputQuantity = document.createElement("input");
@@ -204,11 +86,8 @@ function itemQuantity(){
 	inputQuantity.setAttribute("name","inputQuantity");
 	inputQuantity.setAttribute("id","inputQuantity");
 	inputQuantity.setAttribute("list","defaultQnumbers");
-	//inputQuantity.setAttribute("value","{{ orderQuantity }}");
-	//inputQuantity.setAttribute("required",true);
-	// const p = document.createElement("p");
-	// p.innerHTML = "{{ orderQuantity }}"
-	// divItemQuantity.append(p);
+	inputQuantity.setAttribute("value","0");
+	
 	const QnumData = document.createElement("datalist");
 	QnumData.setAttribute("id","defaultQnumbers");
 	const o500 = document.createElement("option");
@@ -240,23 +119,17 @@ function itemQuantity(){
 	QnumData.append(o15000);
 
 
-	divItemQuantity.setAttribute("class","itemDivHead");
+	divItemQuantity.setAttribute("class","textInputDiv");
 
 	divItemQuantity.append(inputQtyLabel);
 	divItemQuantity.append(inputQuantity);
 	divItemQuantity.append(QnumData);
 
-	//orderItems.itemQuantity = inputQuantity.value;
-
 	divParent.append(divItemQuantity);
-
-	//console.log(divParentItemType);
-	//console.log(divParent);
 }
 
 //GET ITEM NO OF PAGES
 function itemNoOfPages(){
-	//const count = c;
 	const divItemNoPages = document.createElement("div");
 	const inputNoPagesLabel = document.createElement("label");
 	const inputNopages = document.createElement("input");
@@ -268,14 +141,13 @@ function itemNoOfPages(){
 	inputNopages.setAttribute("min","4");
 	inputNopages.setAttribute("max","2000");
 	inputNopages.setAttribute("step","4");
-	inputNopages.setAttribute("value","{{ noOfPages }}");
+	inputNopages.setAttribute("value","4");
+	//inputNopages.setAttribute("value","{{ noOfPages }}");
 
-	divItemNoPages.setAttribute("class","itemDivHead");
+	divItemNoPages.setAttribute("class","textInputDiv");
 
 	divItemNoPages.append(inputNoPagesLabel);
 	divItemNoPages.append(inputNopages);
-
-	//orderItems.itemNoOfPages = inputNopages.value;
 	divParent.append(divItemNoPages);
 }
 
@@ -293,7 +165,7 @@ function itemNoOfColor(){
 //GET LAMINATION YES OR NO
 function itemLam() {
 
-	const lamRadioArray = [{"id":"coverlam","message":"Do you want lamination in cover :"},
+	const lamRadioArray = [{"id":"coverLam","message":"Do you want lamination in cover :"},
 								{"value":true,"id":"lamYes","message":"Yes","checked":true},
 								{"value":false,"id":"lamNo","message":"No","checked":false},
 								];
@@ -311,7 +183,6 @@ function a4Type() {
 
 //Get Spiral Type
 function spiralType() {
-	//const count = c;
 	const divSpiralType = document.createElement("div");
 	const inputSpiralTypeLabel = document.createElement("label");
 	const selectSpiral = document.createElement("select");
@@ -346,44 +217,159 @@ function error(errorMessage) {
 	alert(h1error.innerHTML);
 }
 
-
 //GET SPECIAL QUERYS
 function specialQuery(){
-	//const count = c;
-	// const divSpecialQuery = document.createElement("div");
-	// const inputSpecialQueryLabel = document.createElement("label");
-	// const inputSpecialQueryButton = document.createElement("input");
-
 	specialQueryList = {"message":"Check box of additional features :","id":"specialQueryButton","onclick":"specialQueryFun();"}
 	divParent.append(createCheckbox(specialQueryList));
-
-	// inputSpecialQueryLabel.innerHTML = "Check box for additional features :";
-	// inputSpecialQueryLabel.setAttribute("for","specialQueryButton");
-	// inputSpecialQueryButton.setAttribute("type","checkbox");
-	// inputSpecialQueryButton.setAttribute("onclick","specialQueryFun();");
-	// inputSpecialQueryButton.setAttribute("id","specialQueryButton");
-	// inputSpecialQueryButton.setAttribute("name","specialQueryButton");
-
-	// divSpecialQuery.append(inputSpecialQueryLabel);
-	// divSpecialQuery.append(inputSpecialQueryButton);
-
-	// divParent.append(divSpecialQuery);
 }
-
-
 
 function specialQueryFun(){
 	const specialQueryButton = document.getElementById("specialQueryButton");
 	const divAddSpecialQuery = document.createElement("div");
 
-
-
 	if (specialQueryButton.checked == true) {
 		divAddSpecialQuery.innerHTML = "";
 		const itemType = document.getElementById("orderType").value;
-		if (itemType == "Long Copy") {
-			divAddSpecialQuery.append(longCopySpecialQuery());
+		if (itemType == "Long Copy" || itemType == "A4 Copy") {
+			divAddSpecialQuery.append(checkBoxList("Index","indexCheckBox"));
+			divAddSpecialQuery.append(checkBoxList("Inside pages offset print","insideOffsetCheckBox"));
+			divAddSpecialQuery.append(checkBoxList("Is copy full size","fullSizeCheckBox"));
+			
+			const papergsmRadioArray = [{"id":"splpaperGsm","message":"Paper Gsm :"},
+								{"value":48,"id":"48gsm","message":"48 GSM","checked":false},
+								{"value":58,"id":"58gsm","message":"58 GSM","checked":true},
+								{"value":60,"id":"60gsm","message":"60 GSM","checked":false},
+								{"value":64,"id":"64gsm","message":"64 GSM","checked":false},
+								{"value":68,"id":"68gsm","message":"68 GSM","checked":false},
+								{"value":70,"id":"70gsm","message":"70 GSM","checked":false},
+								{"value":80,"id":"80gsm","message":"80 GSM","checked":false}];
+
+			const coverTypeRadioArray = [{"id":"covertypespl","message":"Cover Type :"},
+								{"value":"duplex","id":"duplex","message":"Duplex Cover","checked":true},
+								{"value":"tuffcoat","id":"tuffcoat","message":"Tuffcoat Cover","checked":false},
+								{"value":"artboard","id":"artboard","message":"Artboard Cover","checked":false}];
+
+			const covergsmRadioArray = [{"id":"splcoverGsm","message":"Cover Gsm :"},
+								{"value":200,"id":"200gsm","message":"200 GSM","checked":true},
+								{"value":250,"id":"250gsm","message":"250 GSM","checked":false},
+								{"value":300,"id":"300gsm","message":"300 GSM","checked":false}];
+
+			const makingRadioArray = [{"id":"splstitchType","message":"Making Type :"},
+								{"value":"stitch","id":"stitch","message":"Stitch Copy","checked":true},
+								{"value":"stitchport","id":"stitchport","message":"Stitch & Port","checked":false},
+								{"value":"stitchpasting","id":"stitchpasting","message":"Stitch & Pasting","checked":false},
+								{"value":"fullpasting","id":"fullpasting","message":"Full Pasting","checked":false}];
+
+			divAddSpecialQuery.append(createRadioButtons(papergsmRadioArray));
+			divAddSpecialQuery.append(createRadioButtons(coverTypeRadioArray));
+			divAddSpecialQuery.append(createRadioButtons(covergsmRadioArray));
+			divAddSpecialQuery.append(createRadioButtons(makingRadioArray));
 		}
+
+
+		else if (itemType == "Exam Copy") {
+			const papergsmRadioArray = [{"id":"paperGSM","message":"Paper GSM :"},
+								{"value":48,"id":"48gsm","message":"48 GSM","checked":false},
+								{"value":58,"id":"58gsm","message":"58 GSM","checked":true},
+								{"value":64,"id":"60gsm","message":"60 GSM","checked":false}];
+			const examTypeArray = [{"id":"examType","message":"Choose type :"},
+								{"value":"printed","id":"printedexam","message":"Printed","checked":false},
+								{"value":"rulled","id":"rulledexam","message":"Rulled","checked":true}];
+			divAddSpecialQuery.append(createRadioButtons(papergsmRadioArray));
+			divAddSpecialQuery.append(createRadioButtons(examTypeArray));
+			divAddSpecialQuery.append(checkBoxList("Inside pages offset print","insideOffsetCheckBox"));
+		}
+
+		else if (itemType == "Register") {
+
+			const papergsmRadioArray = [{"id":"splpaperGSM","message":"Paper GSM :"},
+								{"value":48,"id":"48gsm","message":"48 GSM","checked":false},
+								{"value":58,"id":"58gsm","message":"58 GSM","checked":true},
+								{"value":60,"id":"60gsm","message":"60 GSM","checked":false},
+								{"value":64,"id":"64gsm","message":"64 GSM","checked":false},
+								{"value":68,"id":"68gsm","message":"68 GSM","checked":false},
+								{"value":70,"id":"70gsm","message":"70 GSM","checked":false},
+								{"value":80,"id":"80gsm","message":"80 GSM","checked":false}];
+			divAddSpecialQuery.append(createRadioButtons(papergsmRadioArray));
+
+
+			const divKuthExt = document.createElement("div");
+			divKuthExt.setAttribute("id","extKuthDiv");
+
+			const coverTypeRadioArray = [{"id":"covertypespl","message":"Cover Type :"},
+								{"value":"kuth","id":"kuth","message":"Kuth Cover","checked":true,"onclick":"kuthExtFun();"},
+								{"value":"duplex","id":"duplex","message":"Duplex Cover","checked":false,"onclick":"noKuthExtFun();"},
+								{"value":"tuffcoat","id":"tuffcoat","message":"Tuffcoat Cover","checked":false,"onclick":"noKuthExtFun();"},
+								{"value":"artboard","id":"artboard","message":"Artboard Cover","checked":false,"onclick":"noKuthExtFun();"}];
+			divAddSpecialQuery.append(createRadioButtons(coverTypeRadioArray));
+
+
+			const registerTypeRadioArray = [{"id":"rType","message":"Register Type :"},
+								{"value":"ordinaryRegister","id":"ordinaryRegister","message":"Ordinary Register","checked":true},
+								{"value":"canvasRegister","id":"canvasRegister","message":"Canvas-Binding Register","checked":false}];
+			divKuthExt.append(createRadioButtons(registerTypeRadioArray));
+			divKuthExt.append(checkBoxList("Index","indexCheckBox"));
+			divKuthExt.append(checkBoxList("Inside pages offset print","insideOffsetCheckBox"));
+
+			divAddSpecialQuery.append(divKuthExt);
+
+		}
+
+		else if (itemType == "Spiral Notebook") {
+			const papergsmRadioArray = [{"id":"splpaperGSM","message":"Paper GSM :"},
+								{"value":48,"id":"48gsm","message":"48 GSM","checked":false},
+								{"value":58,"id":"58gsm","message":"58 GSM","checked":true},
+								{"value":60,"id":"60gsm","message":"60 GSM","checked":false},
+								{"value":64,"id":"64gsm","message":"64 GSM","checked":false},
+								{"value":68,"id":"68gsm","message":"68 GSM","checked":false},
+								{"value":70,"id":"70gsm","message":"70 GSM","checked":false},
+								{"value":80,"id":"80gsm","message":"80 GSM","checked":false}];
+
+			const coverTypeRadioArray = [{"id":"covertypespl","message":"Cover Type :"},
+								{"value":"duplex","id":"duplex","message":"Duplex Cover","checked":true},
+								{"value":"tuffcoat","id":"tuffcoat","message":"Tuffcoat Cover","checked":false},
+								{"value":"artboard","id":"artboard","message":"Artboard Cover","checked":false}];
+
+			const covergsmRadioArray = [{"id":"splcoverGsm","message":"Cover Gsm :"},
+								{"value":200,"id":"200gsm","message":"200 GSM","checked":true},
+								{"value":250,"id":"250gsm","message":"250 GSM","checked":false},
+								{"value":300,"id":"300gsm","message":"300 GSM","checked":false}];
+
+			const spiralChuriArray = [{"id":"splchuriType","message":"Type of Spiral :"},
+								{"value":"iron","id":"ironchuri","message":"Iron Spiral","checked":false},
+								{"value":"plastic","id":"plastichuri","message":"Plastic Spiral","checked":true}];
+
+			divAddSpecialQuery.append(createRadioButtons(papergsmRadioArray));
+			divAddSpecialQuery.append(createRadioButtons(coverTypeRadioArray));
+			divAddSpecialQuery.append(createRadioButtons(covergsmRadioArray));
+			divAddSpecialQuery.append(createRadioButtons(spiralChuriArray));
+			divAddSpecialQuery.append(checkBoxList("Inside pages offset print","insideOffsetCheckBox"));
+
+		}
+
+		else if (itemType == "School Diary") {
+			const papergsmRadioArray = [{"id":"splpaperGSM","message":"Paper GSM :"},
+								{"value":60,"id":"60gsm","message":"60 GSM","checked":false},
+								{"value":70,"id":"70gsm","message":"70 GSM","checked":true},
+								{"value":80,"id":"80gsm","message":"80 GSM","checked":false}];
+
+			const coverTypeRadioArray = [{"id":"covertypespl","message":"Cover Type :"},
+								{"value":"duplex","id":"duplex","message":"Duplex Cover","checked":true},
+								{"value":"tuffcoat","id":"tuffcoat","message":"Tuffcoat Cover","checked":false},
+								{"value":"artboard","id":"artboard","message":"Artboard Cover","checked":false}];
+
+			const covergsmRadioArray = [{"id":"splcoverGsm","message":"Cover Gsm :"},
+								{"value":200,"id":"200gsm","message":"200 GSM","checked":true},
+								{"value":250,"id":"250gsm","message":"250 GSM","checked":false},
+								{"value":300,"id":"300gsm","message":"300 GSM","checked":false}];
+
+			divAddSpecialQuery.append(createRadioButtons(papergsmRadioArray));
+			divAddSpecialQuery.append(createRadioButtons(coverTypeRadioArray));
+			divAddSpecialQuery.append(createRadioButtons(covergsmRadioArray))
+
+		}
+		else
+			return false;
 	}
 	else {
 		divAddSpecialQuery.innerHTML = "";
@@ -391,62 +377,50 @@ function specialQueryFun(){
 	}
 
 	divParent.append(divAddSpecialQuery);
-
-
-
 }
 
+function kuthExtFun(){
+	const div = document.getElementById("extKuthDiv");
 
-function longCopySpecialQuery(){
-	var divSpecialQueryLongCopy = document.createElement("div");
-	
-	//index
-	indexList = {"message":"Index","id":"indexCheckBox"}
-	divSpecialQueryLongCopy.append(createCheckbox(indexList))
+	div.innerHTML = "";
 
-	//inside page offset print
-	insideOffsetList = {"message":"Inside pages offset print","id":"insideOffsetCheckBox"}
-	divSpecialQueryLongCopy.append(createCheckbox(insideOffsetList));
+	const registerTypeRadioArray = [{"id":"rType","message":"Register Type :"},
+						{"value":"ordinaryRegister","id":"ordinaryRegister","message":"Ordinary Register","checked":true},
+						{"value":"canvasRegister","id":"canvasRegister","message":"Canvas-Binding Register","checked":false}];
+	div.append(createRadioButtons(registerTypeRadioArray));
+	div.append(checkBoxList("Index","indexCheckBox"));
+	div.append(checkBoxList("Inside pages offset print","insideOffsetCheckBox"));
+}
 
-	//is full size copy
-	fullSizeList = {"message":"Is copy full size","id":"fullSizeCheckBox"}
-	divSpecialQueryLongCopy.append(createCheckbox(fullSizeList));
+function noKuthExtFun(){
+	const div = document.getElementById("extKuthDiv");
 
-	//paper gsm
-	const papergsmRadioArray = [{"id":"paperGSM","message":"Paper GSM :"},
-								{"value":48,"id":"48gsm","message":"48 GSM","checked":false},
-								{"value":58,"id":"58gsm","message":"58 GSM","checked":true},
-								{"value":64,"id":"64gsm","message":"64 GSM","checked":false},
-								{"value":68,"id":"68gsm","message":"68 GSM","checked":false},
-								{"value":70,"id":"70gsm","message":"70 GSM","checked":false},
-								{"value":80,"id":"80gsm","message":"80 GSM","checked":false}];
-	divSpecialQueryLongCopy.append(createRadioButtons(papergsmRadioArray));
+	div.innerHTML = "";
 
-	//coverType
-	const coverTypeRadioArray = [{"id":"coverType","message":"Cover Type :"},
-								{"value":"duplex","id":"duplex","message":"Duplex Cover","checked":true},
-								{"value":"tuffcoat","id":"tuffcoat","message":"Tuffcoat Cover","checked":false},
-								{"value":"artboard","id":"artboard","message":"Artboard Cover","checked":false}];
-	divSpecialQueryLongCopy.append(createRadioButtons(coverTypeRadioArray));
-
-	//cover gsm
 	const covergsmRadioArray = [{"id":"coverGsm","message":"Cover Gsm :"},
-								{"value":200,"id":"200gsm","message":"200 GSM","checked":true},
-								{"value":250,"id":"250gsm","message":"250 GSM","checked":false},
-								{"value":300,"id":"300gsm","message":"300 GSM","checked":false}];
-	divSpecialQueryLongCopy.append(createRadioButtons(covergsmRadioArray));
-	
-	//copy making style
-	const makingRadioArray = [{"id":"stitchType","message":"Making Type :"},
-								{"value":"stitch","id":"stitch","message":"Stitch Copy","checked":true},
-								{"value":"stitchport","id":"stitchport","message":"Stitch & Port","checked":false},
-								{"value":"stitchpasting","id":"stitchpasting","message":"Stitch & Pasting","checked":false},
-								{"value":"fullpasting","id":"fullpasting","message":"Full Pasting","checked":false}];
-	divSpecialQueryLongCopy.append(createRadioButtons(makingRadioArray));
+						{"value":200,"id":"200gsm","message":"200 GSM","checked":true},
+						{"value":250,"id":"250gsm","message":"250 GSM","checked":false},
+						{"value":300,"id":"300gsm","message":"300 GSM","checked":false}];
 
-	return divSpecialQueryLongCopy;
+	const makingRadioArray = [{"id":"stitchType","message":"Making Type :"},
+						{"value":"stitch","id":"stitch","message":"Stitch Copy","checked":true},
+						{"value":"stitchport","id":"stitchport","message":"Stitch & Port","checked":false},
+						{"value":"stitchpasting","id":"stitchpasting","message":"Stitch & Pasting","checked":false},
+						{"value":"fullpasting","id":"fullpasting","message":"Full Pasting","checked":false}];
+
+	div.append(createRadioButtons(covergsmRadioArray));
+	div.append(createRadioButtons(makingRadioArray));
+	
+	div.append(checkBoxList("Index","indexCheckBox"));
+	div.append(checkBoxList("Inside pages offset print","insideOffsetCheckBox"));
 }
 
+
+
+function checkBoxList(msg,id){
+	list = {"message":msg,"id":id}
+	return createCheckbox(list);
+}
 
 
 function createCheckbox(value){
@@ -462,35 +436,48 @@ function createCheckbox(value){
 
 	divCheckBox.append(label);
 	divCheckBox.append(checkbox);
+	divCheckBox.setAttribute("class","textInputDiv");
 
 	return divCheckBox;
 }
 
 function createRadioButtons(value){
 	const divRadio = document.createElement("div");
+	const val = [];
+	const span = [];
 	const inputRadio = [];
 	const inputLabel = [];
 	inputLabelRadioParent = document.createElement("label");
 	inputLabelRadioParent.setAttribute("for",value[0].id);
 	inputLabelRadioParent.innerHTML = value[0].message;
+	div = document.createElement("div");
+	div.setAttribute("class","radioSpanGrid");
 	divRadio.append(inputLabelRadioParent);
 	for (var i = 1; i < value.length; i++) {
+		span[i] = document.createElement("span");
+		val[i] = document.createElement("i");
+		span[i].setAttribute("class","radioSpan");
 		inputLabel[i] = document.createElement("label");
+		inputLabel[i].setAttribute("class","radioSpan");
 		inputRadio[i] = document.createElement("input");
-		inputLabel[i].innerHTML = value[i].message;
-		inputLabel[i].setAttribute("for",value[i])
-		inputRadio[i].setAttribute("for",value[0].id);
+		val[i].innerHTML = value[i].message;
+		//inputLabel[i].setAttribute("for",value[i])
+		//inputRadio[i].setAttribute("for",value[0].id);
 		inputRadio[i].setAttribute("type","radio");
 		inputRadio[i].checked = value[i].checked;
 		inputRadio[i].setAttribute("name",value[0].id);
 		inputRadio[i].setAttribute("id",value[i].id);
 		inputRadio[i].setAttribute("value",value[i].value);
+		inputRadio[i].setAttribute("onclick",value[i].onclick);
 		
-		divRadio.append(inputRadio[i]);
-		divRadio.append(inputLabel[i]);
-	}
+		inputLabel[i].append(inputRadio[i]);
+		inputLabel[i].append(val[i]);
+		/*span[i].append(inputLabel[i]);
+		/*span[i].setAttribute("class","radioSpan");*/
+		div.append(inputLabel[i]);
+	};
 
+	divRadio.append(div);
 	divRadio.setAttribute("class","itemDivHead");
-
 	return divRadio;
 }

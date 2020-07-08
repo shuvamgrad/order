@@ -11,161 +11,149 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
-# engine = create_engine(os.getenv("DATABASE_URL"))
-# db = scoped_session(sessionmaker(bind=engine))
-
 
 @app.route("/")
 def index():
-	#flights = Flight.query.all()
-	#flights = db.execute("SELECT * FROM flight").fetchall()
-
-	#return render_template("index.html", flights=flights)
 	customers = Customer.query.all()
 	return render_template("index.html", customers=customers)
 
 @app.route("/confirmOrder", methods=["POST"])
 def confirmOrder():
-	"""BOOK a flight."""
+	orderType = request.form.get("orderType")
 
-	#GEt form information
-	custName = request.form.get("contactname")
-	custNum = request.form.get("contactnumber")
+	if orderType == "Long Copy":
+		item = {"paperGsm":58,"coverGsm":200,"paperLength":47,"paperBreath":71,"paperLengthFull":20*2.54,"paperBreathFull":30*2.54,
+				"coverLengthFull":21*2.54,"coverBreathFull":31*2.54,"coverLength":48,"coverBreath":72,"noOfCoverPerSheet":4,
+				"maplitho":135,"duplex":110,"artboard":150,"tuffcoat":170,"noOfPagesPerSheet":16,"coverType":"duplex","paperType":"maplitho"}
+		LongCopyList = ["customername","customernumber","orderType","inputQuantity","inputNopages","coverColor","coverLam",
+						"specialQueryButton","indexCheckBox","insideOffsetCheckBox","fullSizeCheckBox","splpaperGsm",
+						"splcoverGsm","splstitchType","covertypespl"]
+		itemLongCopy(LongCopyList,item)
 
-	itemType = request.form.get("orderType")
-	itemQuantity = int(request.form.get("inputQuantity"))
-	itemnoOfPages = int(request.form.get("inputNopages"))
+	elif orderType == "A4 Copy":
+		item = {"paperGsm":58,"coverGsm":200,"paperLength":60,"paperBreath":84,"paperLengthFull":24*2.54,"paperBreathFull":36*2.54,
+				"coverLengthFull":25*2.54,"coverBreathFull":36*2.54,"coverLength":61,"coverBreath":86,"noOfCoverPerSheet":4,
+				"maplitho":135,"duplex":110,"artboard":150,"tuffcoat":170,"noOfPagesPerSheet":16,"coverType":"duplex",
+				"a4Type":"a4normal","paperType":"maplitho"}
+		a4List = ["customername","customernumber","orderType","inputQuantity","inputNopages","coverColor","coverLam",
+						"specialQueryButton","indexCheckBox","insideOffsetCheckBox","fullSizeCheckBox","splpaperGsm",
+						"splcoverGsm","splstitchType","covertypespl","a4Type"]
+		itemA4Copy(a4List,item)
+	elif orderType == "Exam Copy":
+		item = {"paperGsm":58,"paperLength":44,"paperBreath":55,
+				"maplitho":135,"dwp":105,"noOfPagesPerSheet":8,"paperType":"maplitho"}
+		examCopyList = ["customername","customernumber","orderType","inputQuantity","inputNopages",
+						"specialQueryButton","splpaperGsm","splExamType","splpaperType","insideOffsetCheckBox"]
+		itemExamCopy(examCopyList,item)
 
-	paperGsm = 58;
-	coverGsm = 200;
-
-
-
-	if(itemType == "Long Copy"):
-		itemnoOfColor = int(request.form.get("coverColor"));
-		itemLam = request.form.get("coverLam");
-
-
-		specialQueryButton = request.form.get("specialQueryButton");
-		if specialQueryButton:
-			getindex = request.form.get("indexCheckBox")
-			getinsideOffsetPrint = request.form.get("insideOffsetCheckBox")
-			getfullSize = request.form.get("fullSizeCheckBox")
-			paperGsm = int(request.form.get("paperGSM"))
-			getcoverType = request.form.get("coverType")
-			coverGsm = int(request.form.get("coverGsm"))
-			getstitchType = request.form.get("stitchType")
-
-		#paper costing
-		paperLength = 47;
-		paperBreath = 70;
-		#paperGsm = getpaperGsm or 58;
-		print(paperGsm)
-		paperWeight = (paperLength * paperBreath * paperGsm)/20000;
-		paperRatePerKg = 135;
-		paperReamRate = paperWeight * paperRatePerKg;
-		noOfPagesPerSheet = 16;
-		itemcostingOfpaper = (paperReamRate/(noOfPagesPerSheet * 500))*(itemnoOfPages-4);
-
-		#cover costing
-		coverLength = 48;
-		coverBreath = 72;
-		#coverGsm = 200;
-		coverWeight = (coverLength * coverBreath * coverGsm)/20000;
-		coverRatePerKg = 110;
-		coverReamRate = coverWeight * coverRatePerKg;
-		noOfCoverPerSheet = 4;
-		itemCostingOfCover = (coverReamRate/(noOfCoverPerSheet * 500)) * 1.05
-
-		#printing costing
-		noOfCoverSheetReq = (itemQuantity/noOfCoverPerSheet)*1.05
-		noOfImpression = noOfCoverSheetReq*2*itemnoOfColor
-		costOfPrinting = math.ceil(noOfImpression/1000)*200
-
-		print("Cost OF printing : ", costOfPrinting)
-
-		costOfPlates = 400*itemnoOfColor
-
-		#Lamination cost
-		if(itemLam):
-			LamCost = int((coverLength/2.54) * (coverBreath/2.54) * 0.01 * 0.6 * noOfCoverSheetReq)
-		else:
-			LamCost = 0 
-
-		print("lamCOst:",LamCost)
+	print("item :",item)
+	return render_template("success.html", item=item);
 
 
-		#index cost
-		if getindex:
-			costOfPlates += 400;
-			indexImpression = (itemQuantity/noOfCoverPerSheet)*1.05*2
-			costOfPrinting += math.ceil(indexImpression/1000)*200
+def itemLongCopy(listitem,item):	
+	getAllFormElement(listitem,item)
+	nowCalculate(item)
 
-		#labour cost
-		labour = Labour.query.filter(and_(Labour.no_of_pages==itemnoOfPages,Labour.type==itemType)).first()
-		labourCost = float(labour.cost)
+def itemA4Copy(listitem,item):	
+	getAllFormElement(listitem,item)
+	getA4Size(item)
+	nowCalculate(item)
 
-		print("labourCost : ",labourCost)
-
-		finalCost = itemcostingOfpaper + itemCostingOfCover + (costOfPrinting + costOfPlates + LamCost)/itemQuantity + labourCost
-
-		quotation = finalCost * 1.32
+def itemExamCopy(listitem,item):
+	getAllFormElement(listitem,item)
+	nowCalculateExam(item)
 
 
-	elif(itemType == "A4 Copy"):
-		itemnoOfColor = request.form.get("coverColor");
-		itemLam = request.form.get("coverLam");
-		itema4Type = request.form.get("a4type");
-		paperLength = 60;
-		paperBreath = 84;
-		paperGsm = 58;
-		paperWeight = (paperLength * paperBreath * paperGsm)/20000;
-		paperRatePerKg = 135;
-		paperReamRate = paperWeight * paperRatePerKg;
-		noOfPagesPerSheet = 16;
-		itemcostingOfpaper = (paperReamRate/(noOfPagesPerSheet * 500))*(itemnoOfPages-4);
-	elif(itemType == "Exam Copy"):
-		paperLength = 44;
-		paperBreath = 55;
-		paperGsm = 58;
-		paperWeight = (paperLength * paperBreath * paperGsm)/20000;
-		paperRatePerKg = 135;
-		paperReamRate = paperWeight * paperRatePerKg;
-		noOfPagesPerSheet = 8;
-		itemcostingOfpaper = (paperReamRate/(noOfPagesPerSheet * 500))*(itemnoOfPages);
+def getAllFormElement(list,item):
+	for itemElement in list:
+		item[itemElement] = request.form.get(itemElement);
+
+def getA4Size(item):
+	if item["a4Type"]=="a4flat":
+		item["paperLength"] = 44
+		item["paperBreath"] = 55
+		item["coverLength"] = 45
+		item["coverBreath"] = 56
+		item["noOfCoverPerSheet"] = 2
+		item["noOfPagesPerSheet"] = 8
+
+
+def nowCalculate(item):
+	calculateInsidePaperCost(item)
+	calculateCoverCost(item)
+	calculatePrintingPlateCost(item)
+	calculateLaminationCost(item)
+	# calculateLabourCost()
+
+def nowCalculateExam(item):
+	calculateInsidePaperCost(item)
+	calculatePrintingPlateCost(item)
+
+def calculateInsidePaperCost(item):
+	if item["specialQueryButton"]:
+		item["paperGsm"] = item["splpaperGsm"]
+		if item[splpaperType]:
+			item["paperType"] = item["splpaperType"]
+		if item["fullSizeCheckBox"]:
+			item["paperLength"] = item["paperLengthFull"]
+			item["paperBreath"] = item["paperBreathFull"]
+
+	print("paperLength:",item["paperLength"])
+	print("paperBreath:",item["paperBreath"])
+	print("paperGsm:",item["paperGsm"])
+
+	item["paperWeight"] = (int(item["paperLength"]) * int(item["paperBreath"]) * int(item["paperGsm"]))/20000
+	item["paperReamRate"] = item["paperWeight"] * item[item["paperType"]]
+	item["insidePaperCost"] = (item["paperReamRate"]/(item["noOfPagesPerSheet"] * 500))*(int(item["inputNopages"])-4)
+
+
+def calculateCoverCost(item):
+	if item["specialQueryButton"]:
+		item["coverGsm"] = int(item["splcoverGsm"])
+		item["coverType"] = item["covertypespl"]
+		if item["fullSizeCheckBox"]:
+			item["coverLength"] = item["coverLengthFull"]
+			item["coverBreath"] = item["coverBreathFull"]
+
+	item["coverWeight"] = (item["coverLength"] * item["coverBreath"] * item["coverGsm"])/20000
+	print("item[coverType:",item[item["coverType"]])
+	item["coverReamRate"] = item["coverWeight"] * item[item["covertypespl"]]
+	item["coverCost"] = (item["coverReamRate"]/(item["noOfCoverPerSheet"] * 500))
+
+
+
+def calculatePrintingPlateCost(item):
+	item["plateCost"] = 0
+	item["printingCost"] = 0
+	if item["specialQueryButton"]:
+		if item["indexCheckBox"]:
+			item["indexPlateCost"] = 400
+			item["indexImpression"] = (int(item["inputQuantity"])/item["noOfCoverPerSheet"])*1.05*2
+			item["indexPrinting"] = math.ceil(item["indexImpression"]/1000)*200
+			item["plateCost"] += item["indexPlateCost"]
+			item["printingCost"] += item["indexPrinting"]
+		if item["insideOffsetCheckBox"]:
+			item["insidePlateCost"] = 400
+			item["insidePagesImpression"] = ((int(item["inputQuantity"])*(int(item["inputNopages"])-4))/item["noOfPagesPerSheet"])*2*2
+			item["insidePagesPrinting"] = math.ceil(item["insidePagesImpression"]/1000)*200
+			item["plateCost"] += item["insidePlateCost"]
+			item["printingCost"] += item["insidePagesPrinting"]
+
+	item["coverPlateCost"] = 400 * int(item["coverColor"])
+	print("qty",item["inputQuantity"])
+	print("cps",item["noOfCoverPerSheet"])
+	print("color",item["coverColor"])
+	item["noOfCoverSheetReq"] = (int(item["inputQuantity"])/int(item["noOfCoverPerSheet"]))*1.05
+	item["coverImpression"] = item["noOfCoverSheetReq"]*2*int(item["coverColor"])
+	item["coverPrinting"] = math.ceil(item["coverImpression"]/1000)*300
+	item["plateCost"] += item["coverPlateCost"]
+	item["printingCost"] += item["coverPrinting"]
+
+def calculateLaminationCost(item):
+	if item["coverLam"]:
+		item["laminationCost"] = (item["coverLength"]/2.54) * (item["coverBreath"]/2.54) * 0.01 * 0.6 * item["noOfCoverSheetReq"]
 	else:
-		itemcostingOfpaper = None;
-
-	
-	cust = Customer.query.filter_by(name=custName).first()
-
-	#item = OrderItem(itemType,itemQuantity,itemnoOfPages)
-
-	if cust is None:
-		#return render_template("error.html",error="No Such Customer")
-		customer = Customer(name=custName,phone=custNum)
-		db.session.add(customer)
-		db.session.commit()
-		customer.add_item(itemType,itemQuantity,itemnoOfPages)
-	else:
-		cust.add_item(itemType,itemQuantity,itemnoOfPages)
-
-	
-	
-
-	# db.execute("INSERT INTO apolloorder (type,quantity,pages) VALUES (:type, :quantity, :pages)",
-	# 		{"type": itemType, "quantity": itemQuantity, "pages": itemnoOfPages})
-	# db.commit()
-
-
-
-#	if request.method == 'POST':
-		#if request.form['edit_item'] == 'edititem':
-#		return render_template("index.html",orderType=orderType, orderQuantity=orderQuantity, noOfPages=noOfPages);
-
-
-	return render_template("success.html", itemType=itemType, itemQuantity=itemQuantity, itemnoOfPages=itemnoOfPages, itemcostingOfpaper=quotation);
-
+		item["laminationCost"] = 0
 
 
 @app.route("/editItem", methods=["GET"])
@@ -173,32 +161,8 @@ def editItem():
 	orderType = request.form.get("orderType");
 	orderQuantity = request.form.get("inputQuantity");
 	noOfPages = request.form.get("inputNopages");
-	#flights = Flight.query.all()
-	#flights = db.execute("SELECT * FROM flight").fetchall()
-
-	#return render_template("index.html", flights=flights)
 	print(orderType);
 
 	return render_template("index.html", orderTypeName=orderType, orderQuantity=orderQuantity, noOfPages=noOfPages);
-#@app.route("/flights")
-#def flights():
-	"""list all the flights"""
-	#flights = db.execute("SELECT * FROM flight").fetchall()
-	#flights = Flight.query.all()
-	#return render_template("flights.html", flights=flights)
-
-
-#@app.route("/flights/<int:flight_id>")
-#def flight(flight_id):
-	"""detail of one particular flight"""
-	#flight = db.execute("SELECT * FROM flight WHERE id=:id",{"id":flight_id}).fetchone()
-	#flight = Flight.query.get(flight_id)
-
-	#if flight is None:
-	#	return render_template("error.html", message="No such Flight")
-
-	#passengers = db.execute("SELECT name FROM passengers WHERE flight_id = :flight_id",{"flight_id":flight_id}).fetchall()
-	#passengers = Passenger.query.filter_by(flight_id=flight_id).all()
-	#return render_template("flight.html", flight=flight, passengers=passengers)"""
 
 
